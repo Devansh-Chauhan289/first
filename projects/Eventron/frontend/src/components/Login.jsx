@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
-import { handleError } from "../utils";
+import { handleError, handleSuccess } from "../utils";
 import { Heading, Input, ListItem, UnorderedList } from "@chakra-ui/react";
 import { Text, Button,Icon,ListIcon } from "@chakra-ui/react";
 import {MdCheckCircle} from "react-icons/md"
@@ -51,14 +51,19 @@ function Login() {
             if (response.status === 200 && accessToken && refreshToken) {
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("refreshToken", refreshToken);
-                navigate("/Create Event");
+                sessionStorage.setItem("email", email);
+                handleSuccess(msg);
+                setTimeout(() => {
+                    navigate(`/user/profile/:${email}`);
+                }, 2000);
+                // 
             } else {
                 handleError(msg);
             }
         } catch (err) {
             handleError(err.message);
         } finally {
-            setLoading(false);  // Re-enable button after response
+            setLoading(false);  
         }
     };
 

@@ -17,11 +17,11 @@ const app = express()
 const PORT = process.env.PORT
 const DB_URL = process.env.DB_URL
 
-// CORS configuration
+
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow frontend to make requests
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
-  credentials: true, // Allow cookies to be sent (if needed)
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, 
 }));
 
 app.use(express.json())
@@ -36,7 +36,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(userRouter)
+app.use("/",userRouter)
 app.use("/event", eventRouter)
 app.use("/admin", adminRouter)
 

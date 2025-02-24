@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path='/' element = <EApp/> />
         <Route path='/Create Event' element = <CreateEvent/> />
-        <Route path='/user-profile' element = <UserProfile/> />
+        <Route path='/user/profile/:email' element = <UserProfile/> />
         <Route path='/eventdetails/:id' element = <IndividualEvent/> />
         <Route path='/maps' element=<MyMapComponent/> />
         <Route path='/signup' element=<Signup/>  />

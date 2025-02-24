@@ -28,3 +28,18 @@ export let postdata=(post={obj})=>{
         }
     }
 }
+
+
+export let Login = (userdata) => {
+    return async(dispatch) => {
+        dispatch({type : "LOGIN-REQ"})
+
+        try {
+            axios.post("URL",userdata)
+            let result = await res.json()
+            dispatch({type : "LOGIN-COM"})
+        } catch (error) {
+            dispatch({type : "LOGIN-FAIL"})
+        }
+    }
+}

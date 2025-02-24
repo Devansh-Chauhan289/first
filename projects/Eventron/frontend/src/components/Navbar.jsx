@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 import { handleError,handleSuccess } from "../utils";
+import { color } from "framer-motion";
 
 // import './Navbar.css' 
 // import Footer from "./Footer";
@@ -12,60 +13,87 @@ import { handleError,handleSuccess } from "../utils";
 function Navbar() {
   const [menu, setMenu] = useState(false);
   let [loading,setloading] = useState(false)
+  let [userlog,setlog] = useState(true)
   let navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenu(!menu);
   };
 
-  async function checkuser() {
-    setloading(true);
 
-    try {
-        let url = "http://localhost:3000/user/profile";
+//   async function checkuser() {
+//     setloading(true);
+//     let user = localStorage.getItem("email")
+//     try {
+//         let url = `http://localhost:3000/user/profile/${user}`;
         
-        const res = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
-            }
-        });
+//         const res = await fetch(url, {
+//             method: 'GET',
+//             headers: {
+//                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+//             }
+//         });
 
-        if (!res.ok) {
+//         if (!res.ok) {
             
-            let errorResponse;
-            try {
-                errorResponse = await res.json();
-            } catch (err) {
-                errorResponse = { msg: "Unknown error occurred" }; 
-            }
+//             let errorResponse;
+//             try {
+//                 errorResponse = await res.json();
+//             } catch (err) {
+//                 errorResponse = { msg: "Unknown error occurred" }; 
+//             }
             
-            const { msg } = errorResponse;
-            handleError(msg);  
-            navigate("/login");  
-            return;
-        }
+//             const { msg } = errorResponse;
+//             handleError(msg);  
+//             navigate("/login");  
+//             return;
+//         }
 
-        const result = await res.json();
-        const { accessToken, refreshToken } = result;
+//         const result = await res.json();
+//         const { accessToken, refreshToken } = result;
 
         
-        if (accessToken && refreshToken) {
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("refreshToken", refreshToken);
-            navigate("/user-profile");  
-        } else {
-            handleError("Tokens missing in response.");  
-            navigate("/login");  
-        }
+//         if (accessToken && refreshToken) {
+          
+//             localStorage.setItem("accessToken", accessToken);
+//             localStorage.setItem("refreshToken", refreshToken);
+//             // navigate(`user/profile/${user}`);  
+//             console.log(user);
+//         } else {
+//             handleError("Tokens missing in response.");  
+//             navigate("/login");  
+//         }
 
-    } catch (err) {
-        handleError(err.message);  
-        navigate("/login");  
-    } finally {
-        setloading(false);  
+//     } catch (err) {
+//         handleError(err.message);  
+//         navigate("/login");  
+//     } finally {
+//         setloading(false);  
+//     }
+// }
+  function seeProfile(){
+    let accessToken = localStorage.getItem("accessToken")
+    let refreshToken = localStorage.getItem("refreshToken")
+    let email = sessionStorage.getItem("email")
+    if(accessToken && refreshToken && email){
+      setlog(true)
+      navigate(`/user/profile/${email}`)
+    } else{
+      navigate("/login")
     }
-}
+  } 
+
+  function ForCreateEvent(){
+    let accessToken = localStorage.getItem("accessToken")
+    let refreshToken = localStorage.getItem("refreshToken")
+    let email = sessionStorage.getItem("email")
+    if(accessToken && refreshToken && email){
+      setlog(true)
+      navigate(`/Create Event`)
+    } else{
+      navigate("/login")
+    }
+  }
 
   return (
     <>
@@ -81,16 +109,18 @@ function Navbar() {
           <div className="menu-icon"></div>
         </div>
         <ul className={menu ? 'navbar-link active' : 'navbar-link'}>
-          <li><Link to='/'>Home</Link></li>
+          <li><Link to='/'>Events</Link></li>
           <li><Link to='/signup'>Sign Up</Link></li> 
           <li><Link to='/contact'>Contact</Link></li>   
           <li><Link to='/login'>Login</Link></li>  
-          <li><Link to={"/Create Event"}>Create Event</Link></li>
+          <li
+          style={{color : "rgb(72, 255, 0)",cursor:"pointer",fontSize: "1.1rem"}}
+           onClick={ForCreateEvent}>Create Event</li>
         </ul>
         <FontAwesomeIcon
           icon={faUser}
           style={{ color: "#74C0FC", fontSize: "30px", cursor: "pointer" }}
-          onClick={checkuser}
+          onClick={seeProfile}
         />    
       </nav> 
     </>

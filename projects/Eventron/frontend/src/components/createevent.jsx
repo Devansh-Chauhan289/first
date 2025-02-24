@@ -8,7 +8,7 @@ import {  faCalendarDays} from '@fortawesome/free-solid-svg-icons'
 import { useRef, useState } from "react"
 
 import { useNavigate } from "react-router"
-import { handleError,handleSuccess } from "../utils"
+import { handleError, handleSuccess } from "../utils";
 import Navbar from "./Navbar"
 import Footer from "./Footer"
 import React from "react"
@@ -69,13 +69,15 @@ export let CreateEvent = ()=>{
 
         // Ensure required fields are filled
         if (!title || !startTime || !location) {
+            console.log("field required");
             return handleError("Field required");
+            
         }
 
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-        const startDate = new Date(startTime).toISOString(); // Convert to ISO string
-    const endDate = endTime ? new Date(endTime).toISOString() : startDate; 
+        const startDate = new Date(startTime).toISOString(); 
+        const endDate = endTime ? new Date(endTime).toISOString() : startDate; 
 
         const formData = new FormData();
         formData.append("title", title);
@@ -83,7 +85,7 @@ export let CreateEvent = ()=>{
         formData.append("startTime", startTime);
         formData.append("endTime", endTime);
         formData.append("location", location);
-        formData.append("invitees", (JSON.stringify(invitees))) // Send invitees as a JSON string
+        formData.append("invitees", (JSON.stringify(invitees))) 
         formData.append("timeZone", timeZone);
         if (media) formData.append("media", media);
 

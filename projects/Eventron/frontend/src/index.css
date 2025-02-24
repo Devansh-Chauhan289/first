@@ -78,7 +78,7 @@
   font-size: 1.1rem;
 }
 
-.navbar-link a:hover{
+.navbar-link a:hover, .navbar-li:hover {
   color: red;
 }
 

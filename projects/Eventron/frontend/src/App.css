@@ -329,3 +329,14 @@ button{
 .signup-form a:hover {
   text-decoration: underline;
 }
+
+
+/*                   HOME CSS */
+
+.Home-Background{
+  opacity: 0.8;
+  width: 100%;
+  
+  margin-bottom: 200px;
+
+}

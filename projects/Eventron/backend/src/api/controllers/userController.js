@@ -2,6 +2,7 @@ import argon2 from "argon2"
 import { userData } from "../../models/userModel.js"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import { query } from "express"
 
 dotenv.config()
 
@@ -59,16 +60,20 @@ const loginUser = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
     try {
-        const user = await userData.findById(req.user.email).populate("createdEvents")
-        if (!user) return res.status(404).json({ msg: "User not found" })
+        const useremail = req.params.email;  
 
-        console.log("User profile:", user)
-        return res.status(200).json({ user })
+        const user = await userData.findOne({ email: useremail }).populate("createdEvents");
+        
+        if (!user) return res.status(404).json({ msg: "User not found" });
+
+        console.log("User profile:", user);
+        return res.status(200).json({ user });
     } catch (err) {
-        console.error("Error fetching user profile:", err)
-        return res.status(500).json({ msg: "Error fetching user profile", error: err.message })
+        console.error("Error fetching user profile:", err);
+        return res.status(500).json({ msg: "Error fetching user profile", error: err.message });
     }
 }
+
 
 const updateUser = async (req, res) => {
     const { name, email, phone, role } = req.body

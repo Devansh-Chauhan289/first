@@ -10,7 +10,7 @@ const userRouter = express.Router()
 userRouter.post("/user/register", registerUser)
 userRouter.post("/user/login", loginUser)
 userRouter.post("/user/refresh-token", refreshAccessToken)
-userRouter.get("/user/profile", authMiddleware, getUserProfile)
+userRouter.get("/user/profile/:email", authMiddleware, getUserProfile)
 userRouter.put("/user/update", authMiddleware, updateUser)
 userRouter.delete("/user/delete", authMiddleware, deleteUser)
 

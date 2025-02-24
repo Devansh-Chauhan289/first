@@ -52,7 +52,7 @@ const EApp = () => {
   }, []);
 
   useEffect(() => {
-    console.log(events);  // Log the updated events after state has changed
+    console.log(events);  
   }, [events]);
 
   
