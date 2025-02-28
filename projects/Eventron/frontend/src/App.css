@@ -1,3 +1,6 @@
+
+
+
 nav{
   width: 100%;
   height: 100px;
@@ -333,10 +336,24 @@ button{
 
 /*                   HOME CSS */
 
-.Home-Background{
-  opacity: 0.8;
+/* .Home-Background{
   width: 100%;
-  
   margin-bottom: 200px;
+  
+} */
 
+.Home-Head{
+  /* position: absolute; */
+  padding-top: 100px;
+  font-size: 50px;
+  color: white;
+  font-weight: 800;
+  padding-bottom: 100px;
+  
+  
 }
+
+.Home-Background{
+  background-image: url("./assets/party.jpg");
+}
+

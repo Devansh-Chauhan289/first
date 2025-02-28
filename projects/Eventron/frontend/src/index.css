@@ -20,6 +20,7 @@
   position: absolute;
   top: 20%;
   height: auto;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .context{
@@ -72,13 +73,17 @@
   margin: 0 1rem;
 }
 
+ul .createEvent:hover{
+    color: #c31432;
+}
+
 .navbar-link a{
   color: rgb(72, 255, 0);
   text-decoration: none;
   font-size: 1.1rem;
 }
 
-.navbar-link a:hover, .navbar-li:hover {
+.navbar-link a:hover {
   color: red;
 }
 

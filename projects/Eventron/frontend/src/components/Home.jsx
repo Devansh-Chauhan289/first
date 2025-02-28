@@ -5,7 +5,8 @@ import { ToastContainer } from "react-toastify";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import partyLogo from "../assets/party.jpg";
-import { position } from "@chakra-ui/react";
+import { position,Button } from "@chakra-ui/react";
+import charityimage from "../assets/charity-image.png"
 
 function Home(){
     const [loggedInUser, setLoggedInUser] = useState("");
@@ -26,10 +27,24 @@ function Home(){
         <>
         <Navbar/>
         <div>
-        <div>
-            <h1 style={{position : "absolute",fontSize:"50px",color : "black", right:"40%" }}>Welcome To Eventron</h1>
-            <img src={partyLogo} alt="PartyLogo" className="Home-Background" />
+        <div className="Home-Background">
             
+            <h1 className="Home-Head"> <b style={{fontSize : "70px"}}>EVENTRON</b> 
+            <br />Event Creation And Management System <br />
+            Start Creating Your Events Now <br /> 
+            <Button style={{padding : "40px",fontSize : "30px",backgroundColor : "mediumpurple",color : "whitesmoke"}}>Create Event</Button>
+            </h1>
+        </div>
+        <div style={{display : "flex",justifyContent:"space-around"}}>
+            <div >
+                <h1>Zero cost for free events</h1>
+                <h2>If you are hosting an event free <br />
+                You don't have to pay anything
+                </h2>
+            </div>
+            <div>
+                <img src={charityimage} alt="" />
+            </div>
         </div>
         
         <ToastContainer/>

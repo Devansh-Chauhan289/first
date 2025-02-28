@@ -177,7 +177,7 @@ export let CreateEvent = ()=>{
                     placeholder="About your Venue"
                     value={eventData.description}
                     onChange={handleChange}
-                      /><br /><br />
+                      /><br />
                     
                 </div>
             </Box>

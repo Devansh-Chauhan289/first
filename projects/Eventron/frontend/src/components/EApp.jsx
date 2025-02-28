@@ -93,7 +93,7 @@ const EApp = () => {
       const dateB = new Date(b.startTime)
       return order === 'asc' ? dateA - dateB : dateB - dateA
     })
-
+ 
     setFilteredEvents(updatedEvents)
   }
 

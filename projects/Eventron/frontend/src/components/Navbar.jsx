@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import logo from "../assets/TRONL.png"
 
 import { handleError,handleSuccess } from "../utils";
 import { color } from "framer-motion";
@@ -14,6 +15,7 @@ function Navbar() {
   const [menu, setMenu] = useState(false);
   let [loading,setloading] = useState(false)
   let [userlog,setlog] = useState(true)
+  const [isHovered, setIsHovered] = useState(false);
   let navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -98,7 +100,8 @@ function Navbar() {
   return (
     <>
       <nav className="navbar">
-        <div className="navbar-logo">Eventron</div>
+        <img src={logo} alt="" height={"140px"} width={"140px"} />
+        {/* <div className="navbar-logo">Eventron</div> */}
         <div id="nav-head" style={{ color: "white", fontSize: "40px", display: "flex", gap: "20px", alignItems: "center" }}>
           <b>EVENTRON</b>
           <h1 id="Head" style={{ color: "#DDA0DD", alignItems: "center" }}>Making Invites Easy</h1>
@@ -114,8 +117,18 @@ function Navbar() {
           <li><Link to='/contact'>Contact</Link></li>   
           <li><Link to='/login'>Login</Link></li>  
           <li
-          style={{color : "rgb(72, 255, 0)",cursor:"pointer",fontSize: "1.1rem"}}
-           onClick={ForCreateEvent}>Create Event</li>
+      style={{
+        color: isHovered ? "red" : "rgb(72, 255, 0)",
+        cursor: "pointer",
+        fontSize: "1.1rem",
+      }}
+      onClick={ForCreateEvent}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="createEvent"
+    >
+      Create Event
+    </li>
         </ul>
         <FontAwesomeIcon
           icon={faUser}
