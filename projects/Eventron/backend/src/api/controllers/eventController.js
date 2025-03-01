@@ -5,6 +5,8 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import axios from "axios"
 import { userData } from "../../models/userModel.js"
+import multer from "multer"
+let upload = multer({storage : "storage"})
 
 dotenv.config()
 
@@ -68,22 +70,23 @@ const createEventInDatabase = async (req, res) => {
             return res.status(400).json({ msg: "Invitees should be an array" })
         }
 
-        // const inviteeObjectIds = parseInvite.map((id) => new mongoose.Types.ObjectId(id))
-        // console.log(inviteeObjectIds)
+        const inviteeObjectIds = parseInvite.map((id) => new mongoose.Types.ObjectId(id))
+        console.log(inviteeObjectIds)
 
-        // if (parseInvite.length !== 0) {
-        //     const users = await userData.find({ _id: { $in: inviteeObjectIds } })
-        //     for (let user of users) {
-        //         if (user.email) {
-        //             await sendInvitationEmail(user.email, { title, description, location, dateTime: { start: { dateTime: startTime }, end: { dateTime: endTime || startTime } } })
-        //         }
-        //     }
-        // }
+        if (parseInvite.length !== 0) {
+            const users = await userData.find({ _id: { $in: inviteeObjectIds } })
+            for (let user of users) {
+                if (user.email) {
+                    await sendInvitationEmail(user.email, { title, description, location, dateTime: { start: { dateTime: startTime }, end: { dateTime: endTime || startTime } } })
+                }
+            }
+        }
 
         let uploadedMedia = []
         if (media && Array.isArray(media)) {
             uploadedMedia = uploadMediaToFilestack(media)
         }
+        
 
         let eventEndTime = endTime
         if (!title || !startTime || !location) { 

@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import passport from "passport"
 import session from "express-session"
+import multer from "multer"
 import { userRouter } from "./api/routes/userRoutes.js"
 import { eventRouter } from "./api/routes/eventRoutes.js"
 import { adminRouter } from "./api/routes/adminRoutes.js"
@@ -13,6 +14,7 @@ import cors from "cors"
 dotenv.config()
 
 const app = express()
+
 
 const PORT = process.env.PORT
 const DB_URL = process.env.DB_URL

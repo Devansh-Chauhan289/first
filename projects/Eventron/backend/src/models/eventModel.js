@@ -47,8 +47,8 @@ const getCoordinates = async (address) => {
 }
 
 const mediaSchema = new Schema({
-    url: { type: String, required: true },
-    type: { type: String, required: true },
+    image: Buffer,
+  filename: String
 })
 
 const eventSchema = new Schema({
