@@ -53,7 +53,7 @@ const uploadMediaToFilestack = async (media) => {
 const createEventInDatabase = async (req, res) => {
     const { title, description, startTime, endTime, timeZone, location, media, invitees } = req.body
     let parseInvite = JSON.parse(invitees)
-    console.log(req.body)
+    console.log(media)
     if (!title ) {
         return res.status(400).json({ msg: "Missing required fields" })
     }

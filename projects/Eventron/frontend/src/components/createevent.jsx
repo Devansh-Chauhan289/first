@@ -69,6 +69,7 @@ export let CreateEvent = ()=>{
 
         // Ensure required fields are filled
         if (!title || !startTime || !location) {
+            console.log(eventData.media);
             console.log("field required");
             return handleError("Field required");
             
@@ -117,6 +118,7 @@ export let CreateEvent = ()=>{
             handleError(err.message);
         } finally {
             setLoading(false);  
+            handleSuccess("Event Created Successfully");
         }
     }
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import { data, Link } from 'react-router'
+import { data, Link, useNavigate } from 'react-router'
 import { EditDetails } from './editDetails'
 import {useDispatch,useSelector} from "react-redux"
 import { fetchdata } from '../redux/action'
@@ -11,7 +11,7 @@ import { Heading,Text,Button } from '@chakra-ui/react'
 
 // let data = null
 const EApp = () => {
-
+  let navigate = useNavigate()
   const [events, setEvents] = useState([])
   const [filteredEvents, setFilteredEvents] = useState([])
   const [categories, setCategories] = useState([])
@@ -97,6 +97,23 @@ const EApp = () => {
     setFilteredEvents(updatedEvents)
   }
 
+  function LearnMoreButton(){
+    let accessToken = localStorage.getItem("accessToken")
+    let refreshToken = localStorage.getItem("refreshToken")
+    let email = sessionStorage.getItem("email")
+
+    if(accessToken && refreshToken && email){
+      // navigate(`/eventdetails/${event.id}`)
+      console.log("login");
+      return true
+    } else{
+      // 
+      console.log("not login");
+      return false
+    }
+  }
+  
+
   return (
     <>
     <Navbar/>
@@ -137,7 +154,8 @@ const EApp = () => {
       <p style={{fontSize:"20px"}}><strong>Date:</strong> {new Date(event.startTime).toDateString()}</p>
       
       <p style={{fontSize:"20px",fontWeight:"bold"}}> {event.description}</p>
-      <Button><Link to={`/eventdetails/${event.id}`}>Learn More</Link></Button>
+      
+      <Button onClick={() => LearnMoreButton() ? navigate(`/eventdetails/${event.id}`) : navigate("/login") }>Learn More</Button>
     </div>
   ))}
 </div>

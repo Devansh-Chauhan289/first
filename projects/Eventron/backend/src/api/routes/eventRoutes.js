@@ -8,7 +8,7 @@ const upload = multer({ storage: storage })
 
 const eventRouter = express.Router()
 
-eventRouter.post("/create", authMiddleware, upload.array("media"), createEventInDatabase)
+eventRouter.post("/create", authMiddleware, upload.single("media"), createEventInDatabase)
 eventRouter.get("/", getAllEvents)
 eventRouter.get("/:id", getEvent)
 eventRouter.put("/update-event/:id", authMiddleware, upload.array("media"), updateEventInDatabase)
