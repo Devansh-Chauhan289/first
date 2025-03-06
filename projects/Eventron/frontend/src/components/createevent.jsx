@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import {  faCalendarDays} from '@fortawesome/free-solid-svg-icons'
 import { useRef, useState } from "react"
-
+import { ToastContainer } from 'react-toastify';
 import { useNavigate } from "react-router"
 import { handleError, handleSuccess } from "../utils";
 import Navbar from "./Navbar"
@@ -102,24 +102,34 @@ export let CreateEvent = ()=>{
                 body: formData,
             });
 
-            const result = await response.json();
-            const { msg, accessToken, refreshToken } = result;
+            const result = await res.json();
+            const { msg, newEvent } = result;
 
-            if (response.status === 200 && accessToken && refreshToken ) {
-                localStorage.setItem("accessToken", accessToken);
-                localStorage.setItem("refreshToken", refreshToken);
-                navigate("/");
+            if ((res.status === 201 || res.status === 204) && newEvent ) {
+                setEventData({
+                    ...eventData,
+                    media : newEvent.media
+                })
+                handleSuccess(msg);
+                setTimeout(() => {
+                    navigate("/");
+                    
+                }, 2000);
             } else {
-                navigate("/login")
+                console.log(result);
                 handleError(msg);
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2000);
             }
         } catch (err) {
-            navigate("/");
             handleError(err.message);
-        } finally {
-            setLoading(false);  
-            handleSuccess("Event Created Successfully");
-        }
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
+            
+            
+        } 
     }
 
 
@@ -258,7 +268,7 @@ export let CreateEvent = ()=>{
                 <br /> With EventRon <FontAwesomeIcon color="black" icon={faCalendarDays} /></Text>
 
             </div>
-            
+            <ToastContainer/>
       <br />
     <Footer/>
     </div>

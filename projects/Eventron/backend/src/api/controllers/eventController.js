@@ -6,9 +6,12 @@ import mongoose from "mongoose"
 import axios from "axios"
 import { userData } from "../../models/userModel.js"
 import multer from "multer"
+import bufferToStream from "buffer-to-stream"
 let upload = multer({storage : "storage"})
 
 dotenv.config()
+// const bufferToStream = require('buffer-to-stream');
+
 
 const uploadMediaToFilestack = async (media) => {
     const uploadedMedia = []
@@ -26,7 +29,8 @@ const uploadMediaToFilestack = async (media) => {
             }
 
             const formData = new FormData()
-            formData.append("fileUpload", file.buffer, file.originalname)
+            const fileBlob = new Blob([file.buffer], { type: file.mimetype })
+            formData.append("fileUpload", fileBlob, file.originalname)
 
             const result = await axios.post("https://www.filestackapi.com/api/store/S3", formData, {
                 headers: {
@@ -36,7 +40,7 @@ const uploadMediaToFilestack = async (media) => {
             })
 
             const fileUrl = result.data.url
-
+            console.log(result);
             uploadedMedia.push({
                 url: fileUrl,
                 type: file.mimetype.startsWith("image") ? "image" : "file",
@@ -46,20 +50,17 @@ const uploadMediaToFilestack = async (media) => {
             throw new Error(`Error uploading media: ${err.message || err}`)
         }
     }
-
+    
     return uploadedMedia
 }
 
 const createEventInDatabase = async (req, res) => {
-    const { title, description, startTime, endTime, timeZone, location, media, invitees } = req.body
+    const { title, description, startTime, endTime, timeZone, location, invitees } = req.body
     let parseInvite = JSON.parse(invitees)
-    console.log(media)
-    if (!title ) {
+
+    if (!title || !startTime || !location) {
         return res.status(400).json({ msg: "Missing required fields" })
     }
-
-    // console.log("User:", req.user.id)
-    // console.log("Access Token:", req.user ? req.user.accessToken : "No user")
 
     if (!req.user && !req.user.accessToken) {
         return res.status(401).json({ msg: "Unauthorized" })
@@ -71,27 +72,33 @@ const createEventInDatabase = async (req, res) => {
         }
 
         const inviteeObjectIds = parseInvite.map((id) => new mongoose.Types.ObjectId(id))
-        console.log(inviteeObjectIds)
 
         if (parseInvite.length !== 0) {
             const users = await userData.find({ _id: { $in: inviteeObjectIds } })
             for (let user of users) {
                 if (user.email) {
-                    await sendInvitationEmail(user.email, { title, description, location, dateTime: { start: { dateTime: startTime }, end: { dateTime: endTime || startTime } } })
+                    await sendInvitationEmail(user.email, { 
+                        title, 
+                        description, 
+                        location, 
+                        dateTime: { start: { dateTime: startTime }, end: { dateTime: endTime || startTime } }
+                    })
                 }
             }
         }
 
+        // Check if media files are provided
         let uploadedMedia = []
-        if (media && Array.isArray(media)) {
-            uploadedMedia = uploadMediaToFilestack(media)
+        if (req.files && Array.isArray(req.files)) {
+            // Pass files to Filestack upload function
+            uploadedMedia = await uploadMediaToFilestack(req.files)
         }
-        
 
+        // Set default end time if not provided
         let eventEndTime = endTime
-        if (!title || !startTime || !location) { 
+        if (!eventEndTime) {
             const startDate = new Date(startTime)
-            startDate.setHours(startDate.getHours() + 3)
+            startDate.setHours(startDate.getHours() + 1)  // Add 1 hour as default duration
             eventEndTime = startDate.toISOString()
         }
 
@@ -106,7 +113,6 @@ const createEventInDatabase = async (req, res) => {
                 },
                 end: {
                     dateTime: eventEndTime,
-                    dateTime: eventEndTime,
                     timeZone: timeZone,
                 },
             },
@@ -116,24 +122,16 @@ const createEventInDatabase = async (req, res) => {
             media: uploadedMedia,
             invitees: parseInvite,
         })
-        
 
-        // Use Google OAuth2 client with the correct Google access token
+        // Google Calendar integration (optional)
         if (req.user.accessToken) {
             const oauth2Client = getAuthClient()
             oauth2Client.setCredentials({ access_token: req.user.accessToken })
-            const googleEvent = await createEvent(oauth2Client, {
+            await createEvent(oauth2Client, {
                 summary: title,
                 description,
-                start: {
-                    dateTime: startTime,
-                    timeZone: timeZone,
-                },
-                end: {
-                    dateTime: eventEndTime,
-                    dateTime: eventEndTime,
-                    timeZone: timeZone,
-                },
+                start: { dateTime: startTime, timeZone: timeZone },
+                end: { dateTime: eventEndTime, timeZone: timeZone },
                 location,
             })
         }
@@ -141,6 +139,7 @@ const createEventInDatabase = async (req, res) => {
         await newEvent.location.setCoordinates()
         await newEvent.save()
 
+        // Add new event to user's created events
         const user = await userData.findById(req.user.id)
         if (user) {
             user.createdEvents.push(newEvent.id)
@@ -152,6 +151,7 @@ const createEventInDatabase = async (req, res) => {
         return res.status(500).json({ msg: "Error creating event", error: err.message })
     }
 }
+
 
 const getAllEvents = async (req, res) => {
     try {
