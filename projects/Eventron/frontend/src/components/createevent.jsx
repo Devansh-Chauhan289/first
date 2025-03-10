@@ -16,11 +16,9 @@ import React from "react"
 
 
 
-export let CreateEvent = ()=>{
-    let navigate = useNavigate()
-
-    let [loading, setLoading] = useState(false)
-
+export let CreateEvent = () => {
+    let navigate = useNavigate();
+    let [loading, setLoading] = useState(false);
     let [eventData, setEventData] = useState({
         title: "",
         media: null,
@@ -30,15 +28,17 @@ export let CreateEvent = ()=>{
         endTime: "",
         invitees: [] // Invitees will store an array of email addresses or user IDs
     });
-    
-    
+
     function handleInvites(e) {
         const invitee = e.target.value;
-        if (invitee && !eventData.invitees.includes(invitee)) {
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (invitee && !eventData.invitees.includes(invitee) && emailPattern.test(invitee)) {
             setEventData(prevState => ({
                 ...prevState,
                 invitees: [...prevState.invitees, invitee]
             }));
+        } else {
+            handleError("Invalid email or already added.");
         }
     }
 
@@ -52,11 +52,11 @@ export let CreateEvent = ()=>{
     }
 
     function handleChange(e) {
+        console.log(e.target.files);
         const { name, value, files } = e.target;
         if (name === 'media') {
             setEventData({ ...eventData, [name]: files[0] });
-        } 
-        else {
+        } else {
             setEventData({ ...eventData, [name]: value });
         }
     }
@@ -65,30 +65,26 @@ export let CreateEvent = ()=>{
         e.preventDefault();
 
         let { title, startTime, endTime, location, invitees, media, description } = eventData;
-        // let parse  = JSON.parse(invitees)
 
         // Ensure required fields are filled
-        if (!title || !startTime || !location) {
-            console.log(eventData.media);
-            console.log("field required");
+        if (!title || !startTime || !location ) {
             return handleError("Field required");
-            
         }
 
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-        const startDate = new Date(startTime).toISOString(); 
-        const endDate = endTime ? new Date(endTime).toISOString() : startDate; 
+        const startDate = new Date(startTime).toISOString();
+        const endDate = endTime ? new Date(endTime).toISOString() : startDate;
 
         const formData = new FormData();
         formData.append("title", title);
-        formData.append("description", eventData.description || "");
+        formData.append("description", description || "");
         formData.append("startTime", startTime);
         formData.append("endTime", endTime);
         formData.append("location", location);
-        formData.append("invitees", (JSON.stringify(invitees))) 
+        formData.append("invitees", JSON.stringify(invitees));
         formData.append("timeZone", timeZone);
         if (media) formData.append("media", media);
+        console.log(eventData);
 
         setLoading(true);
         try {
@@ -96,8 +92,7 @@ export let CreateEvent = ()=>{
             let res = await fetch(url, {
                 method: "POST",
                 headers: {
-                    
-                    "Authorization": "Bearer " + localStorage.getItem("accessToken"), 
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken"),
                 },
                 body: formData,
             });
@@ -105,21 +100,16 @@ export let CreateEvent = ()=>{
             const result = await res.json();
             const { msg, newEvent } = result;
 
-            if ((res.status === 201 || res.status === 204) && newEvent ) {
-                setEventData({
-                    ...eventData,
-                    media : newEvent.media
-                })
+            if ((res.status === 201 || res.status === 204) && newEvent) {
+                setEventData({ ...eventData, media: newEvent.media });
                 handleSuccess(msg);
                 setTimeout(() => {
                     navigate("/");
-                    
                 }, 2000);
             } else {
-                console.log(result);
                 handleError(msg);
                 setTimeout(() => {
-                    navigate("/login");
+                    navigate("/");
                 }, 2000);
             }
         } catch (err) {
@@ -127,9 +117,7 @@ export let CreateEvent = ()=>{
             setTimeout(() => {
                 navigate("/");
             }, 1000);
-            
-            
-        } 
+        }
     }
 
 

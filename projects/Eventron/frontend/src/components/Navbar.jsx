@@ -6,6 +6,7 @@ import logo from "../assets/TRONL.png"
 
 import { handleError,handleSuccess } from "../utils";
 import { color } from "framer-motion";
+import { ToastContainer } from "react-toastify";
 
 // import './Navbar.css' 
 // import Footer from "./Footer";
@@ -81,7 +82,10 @@ function Navbar() {
       setlog(true)
       navigate(`/user/profile/${email}`)
     } else{
-      navigate("/login")
+      handleError("User not logged In")
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
     }
   } 
 
@@ -93,7 +97,11 @@ function Navbar() {
       setlog(true)
       navigate(`/Create Event`)
     } else{
-      navigate("/login")
+      handleError("User not logged In")
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
+      
     }
   }
 
@@ -136,6 +144,7 @@ function Navbar() {
           onClick={seeProfile}
         />    
       </nav> 
+      <ToastContainer />
     </>
   );
 }

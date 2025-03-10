@@ -7,99 +7,71 @@ import axios from "axios"
 import { userData } from "../../models/userModel.js"
 import multer from "multer"
 import bufferToStream from "buffer-to-stream"
-let upload = multer({storage : "storage"})
+// let upload = multer({storage : "storage"})
+import { upload } from "../middlewares/multer.js"
+import { cloudinary } from "../middlewares/cloudinary.js"
+
 
 dotenv.config()
-// const bufferToStream = require('buffer-to-stream');
 
 
-const uploadMediaToFilestack = async (media) => {
-    const uploadedMedia = []
-
-    if (!Array.isArray(media) || media.length === 0) {
-        throw new Error("No media files provided.")
-    }
-
-    for (let file of media) {
-        try {
-            console.log("Uploading file:", file)
-
-            if (!file.buffer) {
-                throw new Error("File buffer is missing.")
+const mediacontroller = async (req) => {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(req.file.path, (result, error) => {
+            if (error) {
+                console.log("Error - ", error);
+                return reject("Error uploading media");
             }
+            
+            resolve(result.url); 
+        });
+    });
+};
 
-            const formData = new FormData()
-            const fileBlob = new Blob([file.buffer], { type: file.mimetype })
-            formData.append("fileUpload", fileBlob, file.originalname)
 
-            const result = await axios.post("https://www.filestackapi.com/api/store/S3", formData, {
-                headers: {
-                    "Filestack-Api-Key": process.env.FILESTACK_API_KEY,
-                    "Content-Type": `multipart/form-data boundary=${formData._boundary}`,
-                },
-            })
-
-            const fileUrl = result.data.url
-            console.log(result);
-            uploadedMedia.push({
-                url: fileUrl,
-                type: file.mimetype.startsWith("image") ? "image" : "file",
-            })
-        } catch (err) {
-            console.error("Error uploading media:", err)
-            throw new Error(`Error uploading media: ${err.message || err}`)
-        }
-    }
-    
-    return uploadedMedia
-}
 
 const createEventInDatabase = async (req, res) => {
-    const { title, description, startTime, endTime, timeZone, location, invitees } = req.body
-    let parseInvite = JSON.parse(invitees)
+    const { title, description, startTime, endTime, timeZone, location, invitees } = req.body;
+    let parseInvite = JSON.parse(invitees);
 
     if (!title || !startTime || !location) {
-        return res.status(400).json({ msg: "Missing required fields" })
-    }
-
-    if (!req.user && !req.user.accessToken) {
-        return res.status(401).json({ msg: "Unauthorized" })
+        return res.status(400).json({ msg: "Missing required fields" });
     }
 
     try {
         if (!Array.isArray(parseInvite)) {
-            return res.status(400).json({ msg: "Invitees should be an array" })
+            return res.status(400).json({ msg: "Invitees should be an array" });
         }
 
-        const inviteeObjectIds = parseInvite.map((id) => new mongoose.Types.ObjectId(id))
+        const inviteeObjectIds = parseInvite.map((id) => new mongoose.Types.ObjectId(id));
 
-        if (parseInvite.length !== 0) {
-            const users = await userData.find({ _id: { $in: inviteeObjectIds } })
+        if (parseInvite.length > 0) {
+            const users = await userData.find({ _id: { $in: inviteeObjectIds } });
             for (let user of users) {
                 if (user.email) {
-                    await sendInvitationEmail(user.email, { 
-                        title, 
-                        description, 
-                        location, 
+                    await sendInvitationEmail(user.email, {
+                        title,
+                        description,
+                        location,
                         dateTime: { start: { dateTime: startTime }, end: { dateTime: endTime || startTime } }
-                    })
+                    });
                 }
             }
         }
 
-        // Check if media files are provided
-        let uploadedMedia = []
-        if (req.files && Array.isArray(req.files)) {
-            // Pass files to Filestack upload function
-            uploadedMedia = await uploadMediaToFilestack(req.files)
-        }
+        // Handle media upload
+        
+        let uploadedMedia = [];
+         uploadedMedia.push( await mediacontroller(req))
+        console.log("this - ",uploadedMedia);
+        
 
         // Set default end time if not provided
-        let eventEndTime = endTime
+        let eventEndTime = endTime;
         if (!eventEndTime) {
-            const startDate = new Date(startTime)
-            startDate.setHours(startDate.getHours() + 1)  // Add 1 hour as default duration
-            eventEndTime = startDate.toISOString()
+            const startDate = new Date(startTime);
+            startDate.setHours(startDate.getHours() + 1); // Add 1 hour as default duration
+            eventEndTime = startDate.toISOString();
         }
 
         const newEvent = new eventData({
@@ -121,36 +93,38 @@ const createEventInDatabase = async (req, res) => {
             },
             media: uploadedMedia,
             invitees: parseInvite,
-        })
+        });
 
         // Google Calendar integration (optional)
         if (req.user.accessToken) {
-            const oauth2Client = getAuthClient()
-            oauth2Client.setCredentials({ access_token: req.user.accessToken })
+            const oauth2Client = getAuthClient();
+            oauth2Client.setCredentials({ access_token: req.user.accessToken });
             await createEvent(oauth2Client, {
                 summary: title,
                 description,
                 start: { dateTime: startTime, timeZone: timeZone },
                 end: { dateTime: eventEndTime, timeZone: timeZone },
                 location,
-            })
+            });
         }
 
-        await newEvent.location.setCoordinates()
-        await newEvent.save()
+        await newEvent.location.setCoordinates();
+        await newEvent.save();
 
         // Add new event to user's created events
-        const user = await userData.findById(req.user.id)
+        const user = await userData.findById(req.user.id);
         if (user) {
-            user.createdEvents.push(newEvent.id)
-            await user.save()
+            user.createdEvents.push(newEvent.id);
+            await user.save();
         }
 
-        return res.status(201).json({ msg: "Event created successfully!", newEvent })
+        return res.status(201).json({ msg: "Event created successfully!", newEvent });
     } catch (err) {
-        return res.status(500).json({ msg: "Error creating event", error: err.message })
+        console.error(err);
+        return res.status(500).json({ msg: "Error creating event", error: err.message });
     }
-}
+};
+
 
 
 const getAllEvents = async (req, res) => {
@@ -360,5 +334,6 @@ export {
     updateRSVP,
     getRSVPs,
     sendInvitationEmail,
+    mediacontroller
 }
 

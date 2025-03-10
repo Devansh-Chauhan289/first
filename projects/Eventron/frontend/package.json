@@ -20,6 +20,7 @@
     "@react-icons/all-files": "^4.1.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "framer-motion": "^11.15.0",
     "leaflet-control-geocoder": "^3.0.1",
     "react": "^18.3.1",

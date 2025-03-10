@@ -25,7 +25,7 @@ export let IndividualEvent = () => {
         id: item._id,
         title: item.title,
         description: item.desc,
-        media: item.media[0],  
+        media: item.media,  
         startTime: item.dateTime.start.dateTime,
         endTime: item.dateTime.end.dateTime,
         location: item.location.address,
@@ -92,7 +92,6 @@ export let IndividualEvent = () => {
                 </a>
               </Button>
             </Text>
-            <Text fontSize={"20px"}><b>No. of Seats Left:</b> 103</Text>
           </CardBody>
 
           <CardFooter>

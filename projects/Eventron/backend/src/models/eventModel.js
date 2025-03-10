@@ -47,7 +47,7 @@ const getCoordinates = async (address) => {
 }
 
 const mediaSchema = new Schema({
-    image: Buffer,
+    // image: Buffer,
   filename: String
 })
 
@@ -66,7 +66,7 @@ const eventSchema = new Schema({
         },
     },
     location: locationSchema,
-    media: [mediaSchema],
+    media: [String],
     invitees: [{ type: Schema.Types.ObjectId, ref: "User" }],
     rsvpStatus: [
         {

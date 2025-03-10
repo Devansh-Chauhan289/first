@@ -41,7 +41,7 @@ return <>
           </ul>
         </div>
       </div>
-    </footer>
+  </footer>
 </>
 }
 

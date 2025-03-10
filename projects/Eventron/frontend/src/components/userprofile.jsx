@@ -15,7 +15,7 @@ export let UserProfile = () => {
     const [user, setUser] = useState(null);  // To store the user profile data
     const navigate = useNavigate();
     
-    const email = localStorage.getItem("email");
+    const email = sessionStorage.getItem("email");
 
     async function checkUser() {
         setLoading(true);
@@ -65,80 +65,78 @@ export let UserProfile = () => {
     }
 
     return (
+        <>
+        <Navbar/>
         <div>
-            <h1>User Profile</h1>
-            <p>Email: {user.email}</p>
-            <p>Name: {user.name}</p>
-            {/* Display other user details as needed */}
+            <div className="profile-cont">
+                <Text fontSize={"20px"}><b>User ID : </b>{user._id}</Text>
+                <Heading textTransform={"uppercase"}>{user.name}</Heading><br />
+                <Text fontSize={"20px"}><b>User Email: </b>{user.email}</Text><br />
+                
+            </div>
+            
+            
         </div>
+        <div className="event-cont" >
+            <div style={{marginBottom:"20px"}}>
+                <Card padding={"20px"} width={"350px"} position={{base : "relative"}} right={{base :"40px"}}>
+                    <Box>
+                        <Heading  >
+                        Recent Events
+                        </Heading>
+                        <br />
+                        <UnorderedList>
+                            {
+                                user.createdEvents.map((ele) => (
+                                    <ListItem alignContent={"center"}>
+                                        <ListIcon as={MdCheckCircle} color='green.500' />
+                                            {ele.title}
+                                            <Badge ml='1' colorScheme='green'>
+                                            New
+                                            </Badge>
+                                    </ListItem>
+                                ))
+                            }
+                        </UnorderedList>
+                    </Box>
+                </Card>
+            </div>
+
+            <div className="upcoming">
+                <Card padding={"20px"} width={"350px"}  position={{base : "relative"}} right={{base :"40px"}}>
+                    <Box>
+                        <Heading  >
+                        Upcoming Events
+                        </Heading>
+                        <br />
+                        <UnorderedList>
+                            <ListItem alignContent={"center"}>
+                                <ListIcon as={MdCheckCircle} color='green.500' />
+                               Event 1 <Badge ml='1' colorScheme='green'>
+                                New
+                            </Badge>
+                            </ListItem>
+                        </UnorderedList>
+
+                    </Box>
+                </Card>
+            </div>
+        </div>
+        <Footer/>
+        </>
+        
     );
 
 
     // return(
     //     <>
     //     <body style={{backgroundColor:"rgb(223, 223, 223)",paddingBottom:"100px"}}>
-    //     <Navbar/><br />
+    //     
         
         
-    //     <div className="profile-cont">
-
-    //         <div>
-    //         <Avatar height={{sm:"200px",base:"100px"}} width={{sm:"200px",base:"100px"}}
-            
-    //          name='Segun Adebayo' src={userdata.pfp} />
-    //         </div>
-
-    //         <div>
-    //             <Heading textTransform={"uppercase"}>{userdata.name}</Heading><br />
-    //             <Text fontSize={"20px"}><b>User Name: </b>{userdata.username}</Text><br />
-    //             <Text fontSize={"20px"}><b>Email : </b>{userdata.email}</Text>
-    //         </div>
-
-    //         <div>
-    //             <Heading>Role : {userdata.role}</Heading><br />
-    //             <Text fontSize={"20px"}><b>Phone : </b>{userdata.phoneno}</Text><br />
-    //             <Text fontSize={"20px"}><b>User ID : </b>{userdata.userid}</Text>
-    //         </div>
-    //     </div>
+    //     
         
-    //     <div className="event-cont" >
-    //         <div style={{marginBottom:"20px"}}>
-    //             <Card padding={"20px"} width={"350px"} position={{base : "relative"}} right={{base :"40px"}}>
-    //                 <Box>
-    //                     <Heading  >
-    //                     Recent Events
-    //                     </Heading>
-    //                     <br />
-    //                     <UnorderedList>
-    //                         <ListItem alignContent={"center"}>
-    //                             <ListIcon as={MdCheckCircle} color='red.500' />
-    //                            Event 1 
-    //                         </ListItem>
-    //                     </UnorderedList>
-    //                 </Box>
-    //             </Card>
-    //         </div>
-
-    //         <div className="upcoming">
-    //             <Card padding={"20px"} width={"350px"}  position={{base : "relative"}} right={{base :"40px"}}>
-    //                 <Box>
-    //                     <Heading  >
-    //                     Upcoming Events
-    //                     </Heading>
-    //                     <br />
-    //                     <UnorderedList>
-    //                         <ListItem alignContent={"center"}>
-    //                             <ListIcon as={MdCheckCircle} color='green.500' />
-    //                            Event 1 <Badge ml='1' colorScheme='green'>
-    //                             New
-    //                         </Badge>
-    //                         </ListItem>
-    //                     </UnorderedList>
-
-    //                 </Box>
-    //             </Card>
-    //         </div>
-    //     </div>
+        
     //     </body>
     //     <Footer/>
     //     </>

@@ -8,6 +8,8 @@ import { EditDetails } from './editDetails'
 import {useDispatch,useSelector} from "react-redux"
 import { fetchdata } from '../redux/action'
 import { Heading,Text,Button } from '@chakra-ui/react'
+import { handleError } from '../utils'
+// dotenv.config()
 
 // let data = null
 const EApp = () => {
@@ -20,17 +22,25 @@ const EApp = () => {
   const [sortOrder, setSortOrder] = useState('asc')
   // const [ogdata, setOgdata] = useState([]);  // Initialize ogdata as an empty array
 
+  // const getMedia = async() => {
+  //   try{
+  //     let res = await axios.get(`cloudinary://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_SECRET_API_KEY}@${process.env.CLOUDINARY_NAME}`)
+  //   } catch(err){
+  //     console.log(err);
+  //   }
+  // }
+
+
   // Define getdata as an async function
   const getdata = async () => {
     try {
       let res = await axios.get("http://localhost:3000/event");
       let mydata = res.data.events;  
-      console.log(mydata[2]); 
       let eventsData = res.data.events.map((item) => ({
         id: item._id,
         title: item.title,
         description: item.desc,
-        media: item.media[0],  
+        media: item.media,  
         startTime: item.dateTime.start.dateTime, 
         endTime: item.dateTime.end.dateTime,
         location: item.location.address, 
@@ -51,11 +61,6 @@ const EApp = () => {
 
   }, []);
 
-  useEffect(() => {
-    console.log(events);  
-  }, [events]);
-
-  
   
 
   const handleSearch = (e) => {
@@ -97,19 +102,20 @@ const EApp = () => {
     setFilteredEvents(updatedEvents)
   }
 
-  function LearnMoreButton(){
+  function LearnMoreButton(id){
     let accessToken = localStorage.getItem("accessToken")
     let refreshToken = localStorage.getItem("refreshToken")
     let email = sessionStorage.getItem("email")
 
     if(accessToken && refreshToken && email){
-      // navigate(`/eventdetails/${event.id}`)
-      console.log("login");
-      return true
+      navigate(`/eventdetails/${id}`)
     } else{
-      // 
-      console.log("not login");
-      return false
+      handleError("User not logged In")
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
+      
+      
     }
   }
   
@@ -155,7 +161,7 @@ const EApp = () => {
       
       <p style={{fontSize:"20px",fontWeight:"bold"}}> {event.description}</p>
       
-      <Button onClick={() => LearnMoreButton() ? navigate(`/eventdetails/${event.id}`) : navigate("/login") }>Learn More</Button>
+      <Button onClick={() => LearnMoreButton(event.id) }>Learn More</Button>
     </div>
   ))}
 </div>
