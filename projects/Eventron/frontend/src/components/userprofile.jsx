@@ -87,15 +87,20 @@ export let UserProfile = () => {
                         <br />
                         <UnorderedList>
                             {
-                                user.createdEvents.map((ele) => (
-                                    <ListItem alignContent={"center"}>
-                                        <ListIcon as={MdCheckCircle} color='green.500' />
-                                            {ele.title}
-                                            <Badge ml='1' colorScheme='green'>
-                                            New
-                                            </Badge>
-                                    </ListItem>
-                                ))
+                                user.createdEvents.map((ele) => {
+                                    let startDate = new Date(ele.dateTime.start.dateTime) - Date.now();
+                                    if(startDate < 0){
+                                        return (
+                                            <ListItem alignContent={"center"} onClick={() => navigate(`/eventdetails/${ele._id}`)} cursor={"pointer"}>
+                                                <ListIcon as={MdCheckCircle} color='red.500' />
+                                                    {ele.title}
+                                                    <Badge ml='1' colorScheme='red'>
+                                                    old
+                                                    </Badge>
+                                            </ListItem>
+                                        )
+                                    }
+                                    })
                             }
                         </UnorderedList>
                     </Box>
@@ -110,12 +115,22 @@ export let UserProfile = () => {
                         </Heading>
                         <br />
                         <UnorderedList>
-                            <ListItem alignContent={"center"}>
-                                <ListIcon as={MdCheckCircle} color='green.500' />
-                               Event 1 <Badge ml='1' colorScheme='green'>
-                                New
-                            </Badge>
-                            </ListItem>
+                            {
+                                user.createdEvents.map((ele) => {
+                                    let startDate = new Date(ele.dateTime.start.dateTime) - Date.now();
+                                    if(startDate > 0){
+                                        return (
+                                            <ListItem alignContent={"center"} onClick={() => navigate(`/eventdetails/${ele._id}`)} cursor={"pointer"} >
+                                                <ListIcon as={MdCheckCircle} color='green.500' />
+                                                    {ele.title}
+                                                    <Badge ml='1' colorScheme='green'>
+                                                    New
+                                                    </Badge>
+                                            </ListItem>
+                                        )
+                                    }
+                                    })
+                            }
                         </UnorderedList>
 
                     </Box>

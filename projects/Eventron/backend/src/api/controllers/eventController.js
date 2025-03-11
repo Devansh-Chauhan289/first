@@ -33,6 +33,8 @@ const mediacontroller = async (req) => {
 const createEventInDatabase = async (req, res) => {
     const { title, description, startTime, endTime, timeZone, location, invitees } = req.body;
     let parseInvite = JSON.parse(invitees);
+    console.log("parse - ",parseInvite);
+    console.log("invitees - ",invitees);
 
     if (!title || !startTime || !location) {
         return res.status(400).json({ msg: "Missing required fields" });
@@ -42,11 +44,14 @@ const createEventInDatabase = async (req, res) => {
         if (!Array.isArray(parseInvite)) {
             return res.status(400).json({ msg: "Invitees should be an array" });
         }
+        let memberIDArr = await userData.find({email : {$in : parseInvite}}).select("_id");
+        console.log(memberIDArr);
+        
 
-        const inviteeObjectIds = parseInvite.map((id) => new mongoose.Types.ObjectId(id));
+        // const inviteeObjectIds = memberIDArr.map((id) => new mongoose.Types.ObjectId(id));
 
         if (parseInvite.length > 0) {
-            const users = await userData.find({ _id: { $in: inviteeObjectIds } });
+            const users = await userData.find({ _id: { $in: memberIDArr } });
             for (let user of users) {
                 if (user.email) {
                     await sendInvitationEmail(user.email, {
@@ -62,8 +67,10 @@ const createEventInDatabase = async (req, res) => {
         // Handle media upload
         
         let uploadedMedia = [];
-         uploadedMedia.push( await mediacontroller(req))
-        console.log("this - ",uploadedMedia);
+        if(req.file){
+            uploadedMedia.push( await mediacontroller(req))
+        }
+         
         
 
         // Set default end time if not provided
@@ -88,6 +95,7 @@ const createEventInDatabase = async (req, res) => {
                     timeZone: timeZone,
                 },
             },
+            
             location: {
                 address: location,
             },

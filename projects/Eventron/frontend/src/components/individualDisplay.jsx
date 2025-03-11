@@ -54,6 +54,7 @@ export let IndividualEvent = () => {
   return (
     <>
     <Navbar/>
+    
       <Card
         direction={{ base: 'column', sm: 'row' }}
         overflow='hidden'
@@ -103,7 +104,6 @@ export let IndividualEvent = () => {
           </CardFooter>
         </Stack>
       </Card>
-      <Footer />
       <Footer/>
     </>
   );

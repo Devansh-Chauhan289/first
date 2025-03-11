@@ -23,14 +23,16 @@ export let CreateEvent = () => {
         title: "",
         media: null,
         description: "",
+        category : "",
         location: "",
         startTime: "",
         endTime: "",
         invitees: [] // Invitees will store an array of email addresses or user IDs
     });
+    let [member,setmember] = useState("")
 
-    function handleInvites(e) {
-        const invitee = e.target.value;
+    function handleInvites(invitee) {
+        
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (invitee && !eventData.invitees.includes(invitee) && emailPattern.test(invitee)) {
             setEventData(prevState => ({
@@ -40,6 +42,7 @@ export let CreateEvent = () => {
         } else {
             handleError("Invalid email or already added.");
         }
+        setmember("")
     }
 
     function removeInvitee(index) {
@@ -52,7 +55,7 @@ export let CreateEvent = () => {
     }
 
     function handleChange(e) {
-        console.log(e.target.files);
+        
         const { name, value, files } = e.target;
         if (name === 'media') {
             setEventData({ ...eventData, [name]: files[0] });
@@ -217,8 +220,10 @@ export let CreateEvent = () => {
              <label htmlFor="invitee">Enter Invitee Email: </label><br />
                     <Input variant='outline' type="email"
                     name="invitee" placeholder="Invitee Email"
-                    onBlur={handleInvites} // Trigger adding invitee when user leaves the input
-                    /><br /><br />
+                    value={member} onChange={(e)=> setmember(e.target.value)}
+                    />
+                    <Button onClick={() => handleInvites(member)}>Add</Button>
+                    <br /><br />
                 <div>
                             {eventData.invitees.length > 0 && (
                                 <UnorderedList>

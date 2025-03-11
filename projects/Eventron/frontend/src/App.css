@@ -49,6 +49,10 @@ body {
   margin: 0;
 }
 
+li{
+  list-style: none;
+}
+
 .sb-title {
   position: relative;
   top: -12px;
@@ -357,3 +361,12 @@ button{
   background-image: url("./assets/party.jpg");
 }
 
+.Profile-icon{
+  font-size: 20px;
+  font-weight: 800;
+  font-family :Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}

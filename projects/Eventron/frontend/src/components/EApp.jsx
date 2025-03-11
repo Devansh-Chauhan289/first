@@ -159,7 +159,7 @@ const EApp = () => {
       <p ><strong>Category:</strong> {event.category}</p>
       <p style={{fontSize:"20px"}}><strong>Date:</strong> {new Date(event.startTime).toDateString()}</p>
       
-      <p style={{fontSize:"20px",fontWeight:"bold"}}> {event.description}</p>
+      <p style={{fontSize:"20px",fontWeight:"bold"}}> {event.description.substring(0,20)}....</p>
       
       <Button onClick={() => LearnMoreButton(event.id) }>Learn More</Button>
     </div>

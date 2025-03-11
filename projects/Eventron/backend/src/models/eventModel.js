@@ -65,6 +65,7 @@ const eventSchema = new Schema({
             timeZone: { type: String, required: true },
         },
     },
+    category : {type : String},
     location: locationSchema,
     media: [String],
     invitees: [{ type: Schema.Types.ObjectId, ref: "User" }],
