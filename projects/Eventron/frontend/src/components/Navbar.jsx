@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faIdCard } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faIdCard, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/TRONL.png";
 import { MdSettings } from 'react-icons/md';
 import { handleError, handleSuccess } from "../utils";
@@ -115,11 +115,19 @@ function Navbar() {
               <PopoverCloseButton /> <br />
               <PopoverBody>
                 <Text className="Profile-icon" onClick={seeProfile}>
-                  <FontAwesomeIcon icon={faIdCard} /> 
+                  <FontAwesomeIcon icon={faIdCard} color="green" fontSize={"25px"} /> 
                   View Profile
                 </Text>
                 <Divider />
-                <Text className="Profile-icon"><Icon as={MdSettings} />Account Setting</Text>
+                <Text className="Profile-icon"><Icon as={MdSettings} color={"midnightblue"} fontSize={"25px"}/>Account Setting</Text>
+                <Divider />
+                <Text className="Profile-icon">
+                <FontAwesomeIcon
+              icon={faRightFromBracket}
+              style={{ color: "red", fontSize: "25px", cursor: "pointer" }}
+            />
+                  Log Out</Text>
+                
               </PopoverBody>
             </PopoverContent>
           </Portal>

@@ -100,7 +100,7 @@ const createEventInDatabase = async (req, res) => {
                 address: location,
             },
             media: uploadedMedia,
-            invitees: parseInvite,
+            invitees: memberIDArr,
         });
 
         // Google Calendar integration (optional)
@@ -315,7 +315,8 @@ const sendInvitationEmail = async (toEmail, event) => {
             <p>For more details, please visit <a href="${process.env.WEBSITE_URL}/event/${event._id}">Eventron</a>.</p>         
             <p>${event.desc}</p>
             <p>Event details:</p>
-            <a href="https://www.google.com/maps/search/?api=1&query=${event.location.lat},${event.location.lng}"><strong>Location:</strong> ${event.location}</a>
+            <a href="https://www.google.com/maps/dir//${encodeURIComponent(event.location)}"><strong>Location:</strong> ${event.location}</a>
+            
             <p><strong>Date and Time:</strong> ${event.dateTime.start.dateTime}</p>
             <p>We hope to see you there!</p>
             <p>Best regards,</p>
