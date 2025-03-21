@@ -303,35 +303,38 @@ const sendInvitationEmail = async (toEmail, event) => {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS
         }
-    })
+    });
 
     const mailOptions = {
         from: process.env.SMTP_USER,
         to: toEmail,
-        subject: `You"re Invited to ${event.title}`,
+        subject: `You're Invited to ${event.title}`,
         html: `
-            <p>Hello,</p>
+            <p>Hey Creator,
+            We hope this message finds you well!
+            </p>
             <p>You are invited to attend the event "${event.title}" on ${event.dateTime.start.dateTime}.</p>
-            <p>For more details, please visit <a href="${process.env.WEBSITE_URL}/event/${event._id}">Eventron</a>.</p>         
+            <p>For more details, please visit <a href="https://esports.battlegroundsmobileindia.com/">BGIS INDIA</a>.</p>         
             <p>${event.desc}</p>
             <p>Event details:</p>
             <a href="https://www.google.com/maps/dir//${encodeURIComponent(event.location)}"><strong>Location:</strong> ${event.location}</a>
             
-            <p><strong>Date and Time:</strong> ${event.dateTime.start.dateTime}</p>
+            <p><strong>Date and Time:</strong> ${new Date(event.dateTime.start.dateTime).toDateString()}</p>
             <p>We hope to see you there!</p>
             <p>Best regards,</p>
-            <p>The Event Team</p>
+            <p>TEAM BGIS INDIA</p>
         `
-    }
+    };
 
     try {
-        await transporter.sendMail(mailOptions)
-        console.log("Invitation email sent successfully")
+        await transporter.sendMail(mailOptions);
+        console.log("Invitation email sent successfully");
     } catch (error) {
-        console.error("Error sending email:", error)
-        throw new Error("Error sending invitation email")
+        console.error("Error sending email:", error);
+        throw new Error("Error sending invitation email");
     }
-}
+};
+
 
 
 export {

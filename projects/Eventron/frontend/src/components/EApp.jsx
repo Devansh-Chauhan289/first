@@ -154,7 +154,7 @@ const EApp = () => {
   {filteredEvents.map((event) => (
     <div key={event.id} className='event-card'>
       <Heading fontSize={"30px"}><h3>{event.title}</h3></Heading>
-      
+      <img src={event.media} alt="" />
       
       <p ><strong>Category:</strong> {event.category}</p>
       <p style={{fontSize:"20px"}}><strong>Date:</strong> {new Date(event.startTime).toDateString()}</p>

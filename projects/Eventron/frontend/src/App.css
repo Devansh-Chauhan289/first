@@ -346,6 +346,40 @@ button{
   
 } */
 
+.suggestion-box{
+  display: flex;
+  justify-content: space-around;
+}
+
+.sug-text{
+  width: 50%;
+  padding: 8% 0;
+  width: 40%;
+}
+
+.sug-text>h1{
+  /* display: flex; */
+  align-items: center;
+  text-align: center;
+  font-size: 4vw;
+  font-weight: bolder;
+  color: midnightblue;
+  
+}
+
+.sug-text>h2{
+  
+  text-align: center;
+  font-size: 2vw;
+  font-weight:bolder;
+}
+
+.sug-image{
+  padding: 10% 0;
+  width: 40vw;
+  
+}
+
 .Home-Head{
   /* position: absolute; */
   padding-top: 100px;

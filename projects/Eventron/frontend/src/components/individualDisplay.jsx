@@ -76,6 +76,7 @@ export let IndividualEvent = () => {
           src={event.media} // Add image source
           alt={event.title} // Alt text for accessibility
         />
+        
 
         <Stack>
           <CardBody>
