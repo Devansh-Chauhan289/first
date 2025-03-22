@@ -22,6 +22,7 @@ import {
   Text,
   Divider,
   Icon,
+  Spinner,
 } from '@chakra-ui/react';
 
 function Navbar() {
@@ -42,12 +43,14 @@ function Navbar() {
 
     if (accessToken && refreshToken && email) {
       setLog(true);
+      setLoading(true)
       setTimeout(() => {
         navigate(`/user/profile/${email}`);
       }, 2000);
       
     } else {
       handleError("User not logged In");
+      setLoading(true)
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -61,7 +64,11 @@ function Navbar() {
 
     if (accessToken && refreshToken && email) {
       setLog(true);
-      navigate(`/Create Event`);
+      setLoading(true)
+      setTimeout(() => {
+        navigate(`/Create Event`);
+      }, 2000);
+      
     } else {
       handleError("User not logged In");
       setTimeout(() => {
@@ -72,6 +79,17 @@ function Navbar() {
 
   return (
     <>
+          <Spinner 
+          display={loading? "block" : "none"}
+          padding={"50px"}
+          margin="25% 50%"
+          position="absolute"
+            thickness='7px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+          />
       <nav className="navbar">
         <img src={logo} alt="" height={"140px"} width={"140px"} />
         <div id="nav-head" style={{ color: "white", fontSize: "40px", display: "flex", gap: "20px", alignItems: "center" }}>
@@ -84,20 +102,35 @@ function Navbar() {
           <div className="menu-icon"></div>
         </div>
         <ul className={menu ? 'navbar-link active' : 'navbar-link'}>
-          <li><Link to='/'>Events</Link></li>
-          <li><Link to='/signup'>Sign Up</Link></li> 
-          <li><Link to='/contact'>Contact</Link></li>   
-          <li><Link to='/login'>Login</Link></li>  
-          <li
-            style={{
-              color: isHovered ? "red" : "rgb(72, 255, 0)",
-              cursor: "pointer",
-              fontSize: "1.1rem",
-            }}
+          <li className="navbar-elem" onClick={() =>{ 
+            setLoading(true)
+            setTimeout(() => {
+              navigate("/")
+            }, 2000)
+          }}>Events</li>
+          <li className="navbar-elem" onClick={() =>{ 
+            setLoading(true)
+            setTimeout(() => {
+              navigate("/signup")
+            }, 2000)
+          }}>Sign Up</li> 
+          <li className="navbar-elem" onClick={() =>{ 
+            setLoading(true)
+            setTimeout(() => {
+              navigate("/contact")
+            }, 2000)
+          }} >Contact</li>   
+          <li className="navbar-elem" onClick={() =>{ 
+            setLoading(true)
+            setTimeout(() => {
+              navigate("/login")
+            }, 2000)
+          }}>Login</li>  
+          <li 
             onClick={ForCreateEvent}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className="createEvent"
+            // onMouseEnter={() => setIsHovered(true)}
+            // onMouseLeave={() => setIsHovered(false)}
+            className="navbar-elem"
           >
             Create Event
           </li>

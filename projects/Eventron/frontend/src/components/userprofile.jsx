@@ -34,8 +34,10 @@ export let UserProfile = () => {
             // Check if the response is ok (status 200-299)
             if (res.ok) {
                 const data = await res.json();
-                console.log(data);
+                console.log(data.user._id);
+                sessionStorage.setItem("userID",data.user._id)
                 setUser(data.user);  // Assuming the response contains a "user" object
+                
             } else {
                 throw new Error('Failed to fetch user profile');
             }
@@ -45,12 +47,14 @@ export let UserProfile = () => {
             navigate("/login");  // Navigate to login page if error occurs
         } finally {
             setLoading(false);
+            
         }
     }
 
     useEffect(() => {
         if (email) {
             checkUser();  // Only attempt to fetch if the email is available
+            
         } else {
             navigate("/login");  // If no email is in localStorage, navigate to login
         }
@@ -58,7 +62,7 @@ export let UserProfile = () => {
 
     if (loading) {
         return <div>Loading...</div>;  // You can replace this with a spinner or any loading component
-    }
+    } 
 
     if (!user) {
         return <div>No user data available.</div>;

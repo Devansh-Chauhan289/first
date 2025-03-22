@@ -61,12 +61,28 @@ const EApp = () => {
 
   }, []);
 
+  const debounceSearch = (func,delay) => {
+    let timeout;
+    return function(...args){
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func.apply(this,args)
+      }, delay);
+    }
+  } 
+
   
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value)
-    filterEvents(e.target.value, categoryFilter, sortOrder)
+  const handleSearch = (query) => {
+    
+    filterEvents(query, categoryFilter, sortOrder)
   }
+
+  const Search = (query) => {
+    setSearchQuery(query)
+    let debouncingSearch = debounceSearch(handleSearch,1000)
+    debouncingSearch(query)
+  } 
 
   const handleCategoryChange = (e) => {
     setCategoryFilter(e.target.value)
@@ -132,7 +148,7 @@ const EApp = () => {
           type='text'
           placeholder='Search events by title...'
           value={searchQuery}
-          onChange={handleSearch}
+          onChange={(e) => Search(e.target.value)}
         />
 
         <select value={categoryFilter} onChange={handleCategoryChange}>

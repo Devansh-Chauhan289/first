@@ -7,7 +7,6 @@ import { upload } from "../middlewares/multer.js"
 
 const eventRouter = express.Router()
 
-eventRouter.post("/uploadmedia", upload.single("image"), mediacontroller)
 eventRouter.post("/create", authMiddleware, upload.single("media"), createEventInDatabase)
 eventRouter.get("/", getAllEvents)
 eventRouter.get("/:id", getEvent)

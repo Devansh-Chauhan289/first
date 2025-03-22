@@ -1,7 +1,8 @@
 
 import {Text,Input,Heading,Box,Select,
     Image, Button, UnorderedList, ListItem,
-     Checkbox} from "@chakra-ui/react"
+     Checkbox,
+     Spinner} from "@chakra-ui/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import {  faCalendarDays} from '@fortawesome/free-solid-svg-icons'
@@ -127,7 +128,7 @@ export let CreateEvent = () => {
     return(
         <div className="body-cont"> 
            <Navbar/> 
-     
+
         
         <div className="back"></div>
         <Text

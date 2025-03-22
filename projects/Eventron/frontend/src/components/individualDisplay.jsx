@@ -5,10 +5,15 @@ import { Card, CardHeader, Heading, Stack, Text, Button, Image, Select, Box, Car
 import axios from 'axios';
 import Footer from './Footer';
 import Navbar from './Navbar';
+import { handleSuccess } from '../utils';
 
 export let IndividualEvent = () => {
   const [event, setEvent] = useState(null); 
   const [filterData, setFilteredEvents] = useState(null);
+  const [openmodal,setopenmodal] = useState(false)
+  const [responded,setresponded] = useState(false)
+  const [status,setstatus] = useState("")
+  const [userID,setuserID] = useState("")
   const { id } = useParams(); 
 
   const formatDate = (dateString) => {
@@ -29,23 +34,83 @@ export let IndividualEvent = () => {
         startTime: item.dateTime.start.dateTime,
         endTime: item.dateTime.end.dateTime,
         location: item.location.address,
+        rsvp : item.rsvpStatus
       }));
       setFilteredEvents(eventsData);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const checkResponse = () => {
+    if (filterData) {
+      
+      const event = filterData.find((ele) => ele.id === id);
+      if (event && event.rsvp) {
+        const userResponse = event.rsvp.find((rsvp) => rsvp.user.toString() === userID);
+        if (userResponse) {
+          setresponded(true);
+          
+        }
+      }
+    }
+  };
+  
+
+  const handleResponse = async() =>{
+
+    try {
+      let url = `http://localhost:3000/event/rsvp`
+      let res = await fetch(url,{
+        method : 'POST',
+        headers : {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          eventId: id,
+          status: status,
+          userId: userID
+        })
+      })
+      console.log({"eventId" : id , "status" :status, "userId" : userID});
+      const result = await res.json()
+      const {msg,event} = result
+
+      if(res.status === 200){
+        handleSuccess("Response Submitted Successfully")
+        setresponded(true)
+      }
+      else{
+        // console.log(status);
+        alert("something went wrong")
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    
     getData();
   }, []);
 
   useEffect(() => {
     if (filterData) {
       const individual = filterData.find((item) => item.id === id);
+      setuserID(sessionStorage.getItem("userID"))
       setEvent(individual);
+      checkResponse()
     }
   }, [filterData, id]);
+
+  const handleChange = (value) =>{
+    setopenmodal(true)
+    setstatus(value)
+  }
+
 
   if (!event) {
     return <Text>Loading...</Text>; // Handle loading state
@@ -97,12 +162,24 @@ export let IndividualEvent = () => {
           </CardBody>
 
           <CardFooter>
-            <Select variant={"solid"} bgGradient='linear(to-r, teal.500, green.500)' colorScheme='blue' width={"200px"} placeholder='Want To Respond..?'>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-              <option value="might go">Maybe</option>
-            </Select>
+            <div>
+              <Select display={responded? "none" : "flex"} variant={"solid"} bgGradient='linear(to-r, teal.500, green.500)' colorScheme='blue' width={"200px"} onChange={(e) => handleChange(e.target.value)} placeholder='Want To Respond..?'>
+                <option value="attending">Yes</option>
+                <option value="not attending">No</option>
+                <option value="maybe">Maybe</option>
+              </Select>
+              <Box display={responded? "flex" : "none"} backgroundColor="lightgreen" color="midnightblue" fontStyle="bold" padding="10px" borderRadius="10px">
+                <Heading fontSize="20px">Already Responded</Heading>
+              </Box>
+
+            </div>
+            
+            
           </CardFooter>
+          <div className='confirm-modal' style={openmodal ?({display : "flex"}) : ({display : "none"})} >
+              <Button onClick={handleResponse}>Submit</Button>
+              <Button onClick={() => setopenmodal(false)}>Cancel</Button>
+            </div>
         </Stack>
       </Card>
       <Footer/>

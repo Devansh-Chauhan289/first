@@ -263,8 +263,8 @@ const deleteEvent = async (req, res) => {
 
 
 const updateRSVP = async (req, res) => {
-    const { eventId, status } = req.body
-    const userId = req.user._id
+    const { eventId, status,userId } = req.body
+    
 
     if (!["attending", "maybe", "not attending"].includes(status)) {
         return res.status(400).json({ msg: "Invalid RSVP status" })
@@ -310,19 +310,21 @@ const sendInvitationEmail = async (toEmail, event) => {
         to: toEmail,
         subject: `You're Invited to ${event.title}`,
         html: `
-            <p>Hey Creator,
+            <h3>Hey Creator,
             We hope this message finds you well!
-            </p>
-            <p>You are invited to attend the event "${event.title}" on ${event.dateTime.start.dateTime}.</p>
-            <p>For more details, please visit <a href="https://esports.battlegroundsmobileindia.com/">BGIS INDIA</a>.</p>         
-            <p>${event.desc}</p>
-            <p>Event details:</p>
+            </h3>
+            <h3>You are invited to attend the event <b> "${event.title}" </b> on ${new Date(event.dateTime.start.dateTime).toDateString()}.</h3>
+            <h4> <b>Event details: </b> </h4>
+            <h4>${event.description}</h4>
+            <h4>For more details, please visit <a href="https://esports.battlegroundsmobileindia.com/"> <b>Eventron </b> </a>.</h4>         
+            
+            
             <a href="https://www.google.com/maps/dir//${encodeURIComponent(event.location)}"><strong>Location:</strong> ${event.location}</a>
             
-            <p><strong>Date and Time:</strong> ${new Date(event.dateTime.start.dateTime).toDateString()}</p>
-            <p>We hope to see you there!</p>
-            <p>Best regards,</p>
-            <p>TEAM BGIS INDIA</p>
+            <h4><strong>Date and Time:</strong> ${new Date(event.dateTime.start.dateTime).toDateString()}</h4>
+            <h4>We hope to see you there!</h4>
+            <h4>Best regards,</h4>
+            <h4>TEAM EVENTRON</h4>
         `
     };
 

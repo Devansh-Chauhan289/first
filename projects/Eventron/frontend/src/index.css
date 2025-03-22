@@ -72,8 +72,22 @@
   margin: 0 1rem;
 }
 
-ul .createEvent:hover{
+.navbar-elem{
+  /* color: isHovered ? "red" : "rgb(72, 255, 0)", */
+  cursor: pointer;
+  font-size : 1.1rem;
+  color: rgb(72, 255, 0);
+  transition: all 0.5s ease;
+}
+
+
+ul .navbar-elem:hover{
     color: #c31432;
+    font-size: 1.4rem;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    /* animation: hovereffect 0.1s ease; */
 }
 
 .navbar-link a{
