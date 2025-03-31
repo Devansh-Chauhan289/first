@@ -183,7 +183,7 @@ export let IndividualEvent = () => {
             
             
           </CardFooter>
-          <div className='confirm-modal' style={{display : openmodal? "flex" : "none" }}  >
+          <div className='confirm-modal' style={{display : openmodal? "flex" : "none" ,gap : "10px"}}  >
               <Button onClick={handleResponse}>Submit</Button>
               <Button onClick={() => setopenmodal(false)}>Cancel</Button>
             </div>

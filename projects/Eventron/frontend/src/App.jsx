@@ -31,6 +31,7 @@ function App() {
         <Route path='/login' element=<Login/> />
         <Route path='/editdetails/:id' element=<EditDetails/> />
         <Route path='/' element=<Home/> />
+        
       </Routes> 
       
     </>

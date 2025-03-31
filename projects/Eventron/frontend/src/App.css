@@ -1,5 +1,95 @@
+             /* MEDIA QUERIES */
 
 
+@media (min-width:400px) and (max-width : 700px) {
+      .profile-cont{
+        display: block;
+        gap: 20px;
+        ;
+        text-align: center;
+      }
+      .event-cont{
+        display: block;
+        padding-right:20px ;
+        align-items: center;
+        
+      }
+}
+
+@media screen and (max-width: 500px) {
+    .suggestion-box {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+    }
+  
+    .sug-text {
+      width: 90%; /* Adjust text width for smaller screens */
+      padding: 5% 0;
+      text-align: center;
+    }
+  
+    .sug-text > h1 {
+      font-size: 5vw; /* Adjust heading size dynamically */
+    }
+  
+    .sug-text > h2 {
+      font-size: 4vw; /* Adjust subheading size dynamically */
+    }
+  
+    .sug-image {
+      width: 80%; /* Adjust image width for smaller screens */
+      padding: 5% 0;
+    }
+  
+    .Home-Head {
+      font-size: 30px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
+}
+  
+@media screen and (min-width: 501px) and (max-width: 768px) {
+    .suggestion-box {
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      margin: auto;
+    }
+  
+    .sug-text {
+      width: 60%; /* Adjust text width for medium screens */
+      padding: 4% 0;
+      text-align: center;
+    }
+  
+    .sug-text > h1 {
+      font-size: 4vw; /* Adjust heading size dynamically */
+    }
+  
+    .sug-text > h2 {
+      font-size: 3vw; /* Adjust subheading size dynamically */
+    }
+  
+    .sug-image {
+      width: 50%; /* Adjust image width for medium screens */
+      padding: 4% 0;
+    }
+  
+    .Home-Head {
+      font-size: 40px;
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+}
+
+@media (max-width : 700px) {
+  .controls{
+    flex-direction: column;
+    gap: 10px;
+  }
+}
 
 nav{
   width: 100%;
@@ -31,20 +121,6 @@ nav{
   background-color: rgb(223, 223, 223);
 }
 
-@media (min-width:400px) and (max-width : 700px) {
-    .profile-cont{
-      display: block;
-      gap: 20px;
-      ;
-      text-align: center;
-    }
-    .event-cont{
-      display: block;
-      padding-right:20px ;
-      align-items: center;
-      
-    }
-}
 body {
   margin: 0;
 }
@@ -195,72 +271,6 @@ h1 {
 
 
 
-
-/* *,
-::before,
-::after{
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-label{
-  font-size: 1.2rem;
-}
-html,
-body{
-  height: 100%;
-  width: 100%;
-}
-body{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.container{
-  background-color: #ffff;
-  padding: 32px 48px;
-  border-radius: 10px;
-  width: 100%;
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-}
-.container > h1{
-  margin-bottom: 20px;
-}
-.container > form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.container div{
-  display: flex;
-  flex-direction: column;
-}
-.container input{
-  width: 100%;
-  font-size: 20px;
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid black;
-}
-
-.container input::placeholder{
-  font-size: 12px;
-  font-style: italic;
-}
-button{
-  background-color: red;
-  border: none;
-  font-size: 20px;
-  color: white;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  margin: 10px 0;
-} */
-
 .signup-container {
   display: flex;
   justify-content: space-around;
@@ -342,21 +352,18 @@ button{
 
 /*                   HOME CSS */
 
-/* .Home-Background{
-  width: 100%;
-  margin-bottom: 200px;
-  
-} */
 
 .suggestion-box{
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
+  margin: auto;
 }
 
 .sug-text{
   width: 50%;
   padding: 8% 0;
-  width: 40%;
+  
 }
 
 .sug-text>h1{

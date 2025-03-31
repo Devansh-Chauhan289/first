@@ -94,7 +94,7 @@ function Navbar() {
   };
 
   return (
-    <body>
+    <>
           <Spinner 
           display={loading? "block" : "none"}
           padding={"50px"}
@@ -149,8 +149,6 @@ function Navbar() {
           }}>Login</li>  
           <li 
             onClick={ForCreateEvent}
-            // onMouseEnter={() => setIsHovered(true)}
-            // onMouseLeave={() => setIsHovered(false)}
             className="navbar-elem"
           >
             Create Event
@@ -205,7 +203,7 @@ function Navbar() {
         
       </nav> 
       <ToastContainer />
-    </body>
+    </>
   );
 }
 

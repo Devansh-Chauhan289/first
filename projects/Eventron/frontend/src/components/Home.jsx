@@ -61,6 +61,17 @@ function Home() {
                     setloading(false)
                     }, 2000)
                 }} style={{ padding: "40px", fontSize: "30px", backgroundColor: "mediumpurple", color: "whitesmoke" }}>Start Creating Event</Button>
+                <Button 
+                onClick={() =>{ 
+                    setloading(true)
+                    console.log(loading);
+                    setTimeout(() => {
+                    navigate("/signup")
+                    setloading(false)
+                    }, 2000)
+                }}
+                style={{ padding: "40px", fontSize: "30px", backgroundColor: "green", color: "whitesmoke", marginLeft: "1.1rem"}}
+                >New Here..? Then Join Us</Button>
                     </h1>
                 </div>
                 <div className="suggestion-box">
@@ -83,7 +94,7 @@ function Home() {
                 </div>
                 <div className="suggestion-box">
                 <div className="sug-image">
-                        <img src={birthdayimage} alt="" />
+                        <img className="sug-image" src={birthdayimage} alt="" />
                     </div>
                     <div className="sug-text"  >
                         <h1>Invite whom you like in your party <em></em>
