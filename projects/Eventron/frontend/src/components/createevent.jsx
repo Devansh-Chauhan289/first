@@ -130,118 +130,123 @@ export let CreateEvent = () => {
            <Navbar/> 
 
         
-        <div className="back"></div>
-        <Text
-            textAlign={"center"}
-            padding={"30px"}
-            bgGradient='linear(to-r, yellow.300, yellow.500, yellow.300)'
-            bgClip='text'
-            fontSize='6xl'
-            fontWeight='extrabold'
-            position={"absolute"} top={{md:"40px",base : "100px"}} left={{md : "500px",base:"100px"}}
-           >
-            Event Creation 
-        </Text>
-            <form id="form" onSubmit={handleSubmit}  >
         
-            <Box className="left-box"   left={{md:"10%"}}
-             width={"500px"} height={"470px"} padding={{md:"40px",base:"20px"}} borderWidth='1px'
-              borderRadius='lg' overflow='hidden'>
+        
+            <form id="form" onSubmit={handleSubmit}  >
+        <div className="back">
+            
+            <Text
+                textAlign={"center"}
+                padding={"30px"}
+                bgGradient='linear(to-r, yellow.300, yellow.500, yellow.300)'
+                bgClip='text'
+                fontSize='6xl'
+                fontWeight='extrabold'
+                top={{md:"40px",base : "100px"}} left={{md : "500px",base:"100px"}}
+            >
+                Event Creation 
+            </Text>
+            <div  style={{display : "flex", gap : "20px", justifyContent : "space-around"}}>
 
-                <div>
-                    
-                    <Text
-                        bgGradient='linear(to-l, #7928CA, #FF0080)'
-                        bgClip='text'
-                        fontSize={{md : '4xl',base : "3xl"}}
-                        fontWeight='extrabold'
-                        >
-                        Create Your Own Event
-                    </Text><br />
-                    <label htmlFor="event_name">Enter Your Event Name: </label> <br /> 
-                    <Input variant='outline' type="text"
-                        name="title" placeholder="Enter Event Name" 
-                        value={eventData.title}
-                        onChange={handleChange}
-                         /><br /><br />
+                <Box className="left-box"   left={{md:"10%"}}
+                width={"500px"} height={"470px"} padding={{md:"40px",base:"20px"}} borderWidth='1px'
+                borderRadius='lg' overflow='hidden'>
 
                     <div>
-                        <label htmlFor="media">Upload media You Wanna Add</label><br />
-                        <Input variant='outline'
-                         type="file" name="media"
-                          placeholder="Want to upload any file..?" 
-                          onChange={handleChange}
-                        /><br /><br />
+                        
+                        <Text
+                            bgGradient='linear(to-l, #7928CA, #FF0080)'
+                            bgClip='text'
+                            fontSize={{md : '4xl',base : "3xl"}}
+                            fontWeight='extrabold'
+                            >
+                            Create Your Own Event
+                        </Text><br />
+                        <label htmlFor="event_name">Enter Your Event Name: </label> <br /> 
+                        <Input variant='outline' type="text"
+                            name="title" placeholder="Enter Event Name" 
+                            value={eventData.title}
+                            onChange={handleChange}
+                            /><br /><br />
+
+                        <div>
+                            <label htmlFor="media">Upload media You Wanna Add</label><br />
+                            <Input variant='outline'
+                            type="file" name="media"
+                            placeholder="Want to upload any file..?" 
+                            onChange={handleChange}
+                            /><br /><br />
+
+                        </div>
+            
+                        <label htmlFor="desc">Description : </label> <br />
+                        <Input variant='outline' 
+                        type="text" name="description" 
+                        placeholder="About your Venue"
+                        value={eventData.description}
+                        onChange={handleChange}
+                        /><br />
+                        
+                    </div>
+                </Box>
+
+
+                <Box className="right-box" padding={{md:"40px",base:"20px"}} right={"10%"}  width={"500px"}   borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                    <div>
+                        <Heading textAlign={"center"}
+                        bgGradient='linear(to-l, #7928CA, #FF0080)'
+                        bgClip='text'
+                        fontSize='4xl'
+                        fontWeight='extrabold'
+                        >Add Venue Details</Heading>
+                        <br />
+                    <label htmlFor="location">Add Venue Location</label><br />
+                    <Input variant="outline" type="text"
+                    name="location" placeholder="Select Venue Place"
+                    value={eventData.location}
+                    onChange={handleChange}
+                /><br /><br />
+
+
+                    <label htmlFor="date&time">Select Date and Time: </label><br />
+                    <Input variant="outline" type="datetime-local"
+                    name="startTime" placeholder="Select startdate and time" 
+                    value={eventData.dateTime}
+                    onChange={handleChange}
+                    
+                /><br /><br />
+                <Input variant="outline" type="datetime-local"
+                    name="endTime" placeholder="Select enddate and time" 
+                    value={eventData.endTime}
+                    onChange={handleChange}
+                    
+                />
+                <br />
+                <label htmlFor="invitee">Enter Invitee Email: </label><br />
+                        <Input variant='outline' type="email"
+                        name="invitee" placeholder="Invitee Email"
+                        value={member} onChange={(e)=> setmember(e.target.value)}
+                        />
+                        <Button onClick={() => handleInvites(member)}>Add</Button>
+                        <br /><br />
+                    <div>
+                                {eventData.invitees.length > 0 && (
+                                    <UnorderedList>
+                                        {eventData.invitees.map((invitee, index) => (
+                                            <li key={index}>
+                                                {invitee} <Button size="sm" onClick={() => removeInvitee(index)}>Remove</Button>
+                                            </li>
+                                        ))}
+                                    </UnorderedList>
+                                )}
+                            </div>
+
 
                     </div>
-        
-                    <label htmlFor="desc">Description : </label> <br />
-                    <Input variant='outline' 
-                    type="text" name="description" 
-                    placeholder="About your Venue"
-                    value={eventData.description}
-                    onChange={handleChange}
-                      /><br />
-                    
+                </Box>
                 </div>
-            </Box>
-
-
-            <Box className="right-box" right={"10%"}  width={"500px"}   borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                <div>
-                    <Heading textAlign={"center"}
-                    bgGradient='linear(to-l, #7928CA, #FF0080)'
-                    bgClip='text'
-                    fontSize='4xl'
-                    fontWeight='extrabold'
-                    >Add Venue Details</Heading>
-                    <br />
-                <label htmlFor="location">Add Venue Location</label><br />
-                <Input variant="outline" type="text"
-                 name="location" placeholder="Select Venue Place"
-                 value={eventData.location}
-                 onChange={handleChange}
-              /><br /><br />
-
-
-                <label htmlFor="date&time">Select Date and Time: </label><br />
-                <Input variant="outline" type="datetime-local"
-                 name="startTime" placeholder="Select startdate and time" 
-                 value={eventData.dateTime}
-                onChange={handleChange}
-                
-             /><br /><br />
-             <Input variant="outline" type="datetime-local"
-                 name="endTime" placeholder="Select enddate and time" 
-                 value={eventData.endTime}
-                onChange={handleChange}
-                
-             />
-             <br />
-             <label htmlFor="invitee">Enter Invitee Email: </label><br />
-                    <Input variant='outline' type="email"
-                    name="invitee" placeholder="Invitee Email"
-                    value={member} onChange={(e)=> setmember(e.target.value)}
-                    />
-                    <Button onClick={() => handleInvites(member)}>Add</Button>
-                    <br /><br />
-                <div>
-                            {eventData.invitees.length > 0 && (
-                                <UnorderedList>
-                                    {eventData.invitees.map((invitee, index) => (
-                                        <li key={index}>
-                                            {invitee} <Button size="sm" onClick={() => removeInvitee(index)}>Remove</Button>
-                                        </li>
-                                    ))}
-                                </UnorderedList>
-                            )}
-                        </div>
-
-
-                </div>
-            </Box>
-            
-                <Button type="submit" position={{md:"absolute",base:"relative"}} top={{md:"200px",base:""}} id="create-event" bg={"orange"} width={"350px"}
+            </div>
+                <Button zIndex={"-1"} type="submit" position={{md:"absolute",base:"relative"}} top={{md:"200px",base:""}} id="create-event" bg={"orange"} width={"350px"}
                 isLoading={loading}  // Use Chakra's isLoading prop to show loading state
                 loadingText="Creating Event..."
                 >Create Event</Button>

@@ -68,7 +68,7 @@ function Login() {
     };
 
     return (
-        <>
+        <body >
         <Navbar/>
         <div className="signup-container">
             <div style={{width:"500px", height : "300px",marginTop:"50px", backgroundColor:"#008B8B"
@@ -91,6 +91,8 @@ function Login() {
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <Input
+                    
+                    className="input"
                         type="email"
                         id="email"
                         name="email"
@@ -125,7 +127,7 @@ function Login() {
             <ToastContainer />
         </div>
         <Footer/>
-        </>
+        </body>
     );
 }
 

@@ -94,7 +94,7 @@ function Navbar() {
   };
 
   return (
-    <>
+    <body>
           <Spinner 
           display={loading? "block" : "none"}
           padding={"50px"}
@@ -105,10 +105,11 @@ function Navbar() {
             emptyColor='gray.200'
             color='blue.500'
             size='xl'
+            zIndex={"1000"}
           />
       <nav className="navbar">
         <img src={logo} alt="" height={"140px"} width={"140px"} />
-        <div id="nav-head" style={{ color: "white", fontSize: "40px", display: "flex", gap: "20px", alignItems: "center" }}>
+        <div id="nav-head" style={{ color: "white", fontSize: "40px", display: "flex", gap: "20px", alignItems: "center",alignContent : "center" }}>
           <b>EVENTRON</b>
           <h1 id="Head" style={{ color: "#DDA0DD", alignItems: "center" }}>Making Invites Easy</h1>
         </div>
@@ -121,7 +122,7 @@ function Navbar() {
           <li className="navbar-elem" onClick={() =>{ 
             setLoading(true)
             setTimeout(() => {
-              navigate("/")
+              navigate("/event")
               setLoading(false)
             }, 2000)
           }}>Events</li>
@@ -155,39 +156,56 @@ function Navbar() {
             Create Event
           </li>
         </ul>
-        <Popover>
-          <PopoverTrigger>
+        {
+          (localStorage.getItem("accessToken") && localStorage.getItem("refreshToken") && sessionStorage.getItem("email")) ? (
+            <Popover>
+            <PopoverTrigger>
+              <FontAwesomeIcon
+                icon={faUser}
+                style={{ color: "#74C0FC", fontSize: "30px", cursor: "pointer" }}
+              />
+            </PopoverTrigger>
+            <Portal>
+              <PopoverContent>
+                <PopoverArrow />  
+                <PopoverCloseButton /> <br />
+                <PopoverBody>
+                  <Text className="Profile-icon" onClick={seeProfile}>
+                    <FontAwesomeIcon icon={faIdCard} color="green" fontSize={"25px"} /> 
+                    View Profile
+                  </Text>
+                  <Divider />
+                  
+                  <Divider />
+                  <Text className="Profile-icon" onClick={handleLogout}>
+                  <FontAwesomeIcon
+                icon={faRightFromBracket}
+                style={{ color: "red", fontSize: "25px", cursor: "pointer" }}
+              />
+                    Log Out</Text>
+                  
+                </PopoverBody>
+              </PopoverContent>
+            </Portal>
+          </Popover>
+          ) : (
             <FontAwesomeIcon
-              icon={faUser}
-              style={{ color: "#74C0FC", fontSize: "30px", cursor: "pointer" }}
-            />
-          </PopoverTrigger>
-          <Portal>
-            <PopoverContent>
-              <PopoverArrow />  
-              <PopoverCloseButton /> <br />
-              <PopoverBody>
-                <Text className="Profile-icon" onClick={seeProfile}>
-                  <FontAwesomeIcon icon={faIdCard} color="green" fontSize={"25px"} /> 
-                  View Profile
-                </Text>
-                <Divider />
-                
-                <Divider />
-                <Text className="Profile-icon" onClick={handleLogout}>
-                <FontAwesomeIcon
-              icon={faRightFromBracket}
-              style={{ color: "red", fontSize: "25px", cursor: "pointer" }}
-            />
-                  Log Out</Text>
-                
-              </PopoverBody>
-            </PopoverContent>
-          </Portal>
-        </Popover>
+                icon={faUser}
+                style={{ color: "#74C0FC", fontSize: "30px", cursor: "pointer" }} onClick={() => {
+                  handleError("User not logged In")
+                  setLoading(true)
+                  setTimeout(() =>{
+                    navigate("/login")
+                    setLoading(false)
+                  },1500)
+                }}
+              />
+          )
+        }
+        
       </nav> 
       <ToastContainer />
-    </>
+    </body>
   );
 }
 

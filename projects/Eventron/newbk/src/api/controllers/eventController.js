@@ -1,5 +1,5 @@
 import { eventData } from "../../models/eventModel.js"
-import { createEvent, getAuthClient } from "../services/calendarService.js"
+// import { createEvent, getAuthClient } from "../services/calendarService.js"
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 import mongoose from "mongoose"

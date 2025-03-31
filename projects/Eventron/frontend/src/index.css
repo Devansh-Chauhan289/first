@@ -10,15 +10,17 @@
   background: -webkit-linear-gradient(to right, #c31432, #240b36); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #c31432, #240b36); 
   position: relative;
+  z-index: -1;
 
  }  
 
 .right-box,.left-box{
-  padding: 40px;
+  
+  z-index: -1;
   background-color: white;
   margin: auto;
-  position: absolute;
-  top: 20%;
+  position: relative;
+  /* top: 20%; */
   height: auto;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -52,9 +54,9 @@
   align-items: center;
   background-color: #333;
   padding: 1rem;
-  position: -webkit-sticky;
+  position: sticky;
   top: 0;
- 
+ z-index: 1000;
 }
 
 .navbar-logo{

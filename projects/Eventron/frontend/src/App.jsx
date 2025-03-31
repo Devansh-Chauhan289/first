@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element = <EApp/> />
+        <Route path='/event' element = <EApp/> />
         <Route path='/Create Event' element = <CreateEvent/> />
         <Route path='/user/profile/:email' element = <UserProfile/> />
         <Route path='/eventdetails/:id' element = <IndividualEvent/> />
@@ -30,7 +30,7 @@ function App() {
         <Route path='/signup' element=<Signup/>  />
         <Route path='/login' element=<Login/> />
         <Route path='/editdetails/:id' element=<EditDetails/> />
-        <Route path='/Home' element=<Home/> />
+        <Route path='/' element=<Home/> />
       </Routes> 
       
     </>
