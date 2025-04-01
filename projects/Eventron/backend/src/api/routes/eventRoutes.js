@@ -7,7 +7,10 @@ import { upload } from "../middlewares/multer.js"
 
 const eventRouter = express.Router()
 
-eventRouter.post("/create", authMiddleware, upload.single("media"), createEventInDatabase)
+eventRouter.post("/create", authMiddleware, upload.single("media"), (req, res, next) => {
+    console.log("Route Middleware: /create route accessed."); // Log route access
+    next();
+}, createEventInDatabase)
 eventRouter.get("/", getAllEvents)
 eventRouter.get("/:id", getEvent)
 eventRouter.put("/update-event/:id", authMiddleware, upload.array("media"), updateEventInDatabase)
