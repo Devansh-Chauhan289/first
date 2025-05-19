@@ -14,6 +14,7 @@ import Login from './components/Login'
 import MyMapComponent from './helpers/address'
 import { EditDetails } from './components/editDetails'
 import Home from './components/Home'
+import { NewCreateEvent } from './components/newcreate'
 // import { Maps } from './helpers/maps'
 
 
@@ -23,7 +24,7 @@ function App() {
     <>
       <Routes>
         <Route path='/event' element = <EApp/> />
-        <Route path='/Create Event' element = <CreateEvent/> />
+        <Route path='/Create Event' element = <NewCreateEvent/> />
         <Route path='/user/profile/:email' element = <UserProfile/> />
         <Route path='/eventdetails/:id' element = <IndividualEvent/> />
         <Route path='/maps' element=<MyMapComponent/> />

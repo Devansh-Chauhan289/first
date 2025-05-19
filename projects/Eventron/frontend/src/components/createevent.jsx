@@ -26,7 +26,7 @@ export let CreateEvent = () => {
         description: "",
         category : "",
         location: "",
-        startTime: "",
+        dateTime: "",
         endTime: "",
         invitees: [] // Invitees will store an array of email addresses or user IDs
     });
@@ -163,11 +163,12 @@ export let CreateEvent = () => {
                             Create Your Own Event
                         </Text><br />
                         <label htmlFor="event_name">Enter Your Event Name: </label> <br /> 
-                        <Input variant='outline' type="text"
+                        {/* <input variant='outline' type="text"
                             name="title" placeholder="Enter Event Name" 
                             value={eventData.title}
                             onChange={handleChange}
-                            /><br /><br />
+                            /><br /><br /> */}
+                        
 
                         <div>
                             <label htmlFor="media">Upload media You Wanna Add</label><br />
