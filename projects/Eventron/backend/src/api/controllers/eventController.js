@@ -5,9 +5,6 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import axios from "axios"
 import { userData } from "../../models/userModel.js"
-import multer from "multer"
-import bufferToStream from "buffer-to-stream"
-// let upload = multer({storage : "storage"})
 import { upload } from "../middlewares/multer.js"
 import { cloudinary } from "../middlewares/cloudinary.js"
 

@@ -9,7 +9,6 @@ import { eventRouter } from "./api/routes/eventRoutes.js"
 import { adminRouter } from "./api/routes/adminRoutes.js"
 import "./api/middlewares/OAuthMiddleware.js"
 import cors from "cors"
-// import { app } from "./app.js"
 
 dotenv.config()
 
@@ -39,7 +38,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use("/",userRouter)
+app.use("/",userRouter)   
 app.use("/event", eventRouter)
 app.use("/admin", adminRouter)
 
