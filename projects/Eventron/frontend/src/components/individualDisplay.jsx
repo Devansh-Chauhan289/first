@@ -26,7 +26,7 @@ export let IndividualEvent = () => {
 
   const getData = async () => {
     try {
-      let res = await axios.get("http://localhost:3000/event");
+      let res = await axios.get("https://eventron-backend-production.up.railway.app/event");
       let eventsData = res.data.events.map((item) => ({
         id: item._id,
         title: item.title,

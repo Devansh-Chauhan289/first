@@ -36,7 +36,7 @@ function Signup(){
         }
         setLoading(true)
         try{
-           const url = "http://localhost:3000/user/register"
+           const url = "https://eventron-backend-production.up.railway.app/user/register"
            const response = await fetch(url, {
             method:"POST",
             headers: {
@@ -45,12 +45,12 @@ function Signup(){
             body: JSON.stringify(signup)
            })
            const result = await response.json();
-           //console.log(result)
+           
            const {success, message} = result;
            if(success){
             handleSuccess(message)
             
-            // alert("Register Success")
+            
            }
            else if(error){
             const details = error?.details[0].message

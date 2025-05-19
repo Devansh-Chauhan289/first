@@ -12,7 +12,7 @@ import axios from "axios"
 
 export let UserProfile = () => {
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState(null);  // To store the user profile data
+    const [user, setUser] = useState(null);  
     const navigate = useNavigate();
     
     const email = sessionStorage.getItem("email");
@@ -21,22 +21,22 @@ export let UserProfile = () => {
         setLoading(true);
 
         try {
-            let url = `http://localhost:3000/user/profile/${email}`;
+            let url = `https://eventron-backend-production.up.railway.app/user/profile/${email}`;
             
             const res = await fetch(url, {
                 method: 'GET',
-                // Uncomment and update the Authorization header if needed
+                
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                 }
             });
 
-            // Check if the response is ok (status 200-299)
+            
             if (res.ok) {
                 const data = await res.json();
                 console.log(data.user._id);
                 sessionStorage.setItem("userID",data.user._id)
-                setUser(data.user);  // Assuming the response contains a "user" object
+                setUser(data.user);  
                 
             } else {
                 throw new Error('Failed to fetch user profile');
@@ -44,7 +44,7 @@ export let UserProfile = () => {
 
         } catch (err) {
             console.error('Error:', err.message);
-            navigate("/login");  // Navigate to login page if error occurs
+            navigate("/login");  
         } finally {
             setLoading(false);
             
@@ -53,15 +53,15 @@ export let UserProfile = () => {
 
     useEffect(() => {
         if (email) {
-            checkUser();  // Only attempt to fetch if the email is available
+            checkUser();  
             
         } else {
-            navigate("/login");  // If no email is in localStorage, navigate to login
+            navigate("/login"); 
         }
-    }, [email, navigate]);  // Added `email` and `navigate` to dependency array to re-run the effect if they change
+    }, [email, navigate]);  
 
     if (loading) {
-        return <div>Loading...</div>;  // You can replace this with a spinner or any loading component
+        return <div>Loading...</div>; 
     } 
 
     if (!user) {
@@ -146,18 +146,4 @@ export let UserProfile = () => {
         
     );
 
-
-    // return(
-    //     <>
-    //     <body style={{backgroundColor:"rgb(223, 223, 223)",paddingBottom:"100px"}}>
-    //     
-        
-        
-    //     
-        
-        
-    //     </body>
-    //     <Footer/>
-    //     </>
-    // )
 }

@@ -23,7 +23,7 @@ const EApp = () => {
  
   const getdata = async () => {
     try {
-      let res = await axios.get("http://localhost:3000/event");
+      let res = await axios.get("https://eventron-backend-production.up.railway.app/event");
       let mydata = res.data.events;  
       let eventsData = res.data.events.map((item) => ({
         id: item._id,
@@ -44,9 +44,18 @@ const EApp = () => {
     }
   };
 
+  const handleCheck =  () => {
+    const accesstoken = localStorage.getItem("accessToken")
+    const refreshtoken = localStorage.getItem("refreshToken")
+    if(!accesstoken || !refreshtoken){
+      navigate("/login")
+    }
+  }
+
 
   useEffect(() => {
     getdata()
+    handleCheck()
 
   }, []);
 

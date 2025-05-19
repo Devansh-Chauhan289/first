@@ -36,7 +36,7 @@ function Login() {
         setLoading(true);  // Disable button while waiting for response
 
         try {
-            const url = "http://localhost:3000/user/login";
+            const url = "https://eventron-backend-production.up.railway.app/user/login";
             const response = await fetch(url, {
                 method: "POST",
                 headers: {

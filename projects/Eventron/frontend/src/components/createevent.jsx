@@ -92,7 +92,7 @@ export let CreateEvent = () => {
 
         setLoading(true);
         try {
-            let url = "http://localhost:3000/event/create";
+            let url = "https://eventron-backend-production.up.railway.app/event/create";
             let res = await fetch(url, {
                 method: "POST",
                 headers: {

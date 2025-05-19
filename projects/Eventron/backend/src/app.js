@@ -21,11 +21,12 @@ const DB_URL = process.env.DB_URL
 
 
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: [`https://eventron-ft.vercel.app/`, "http://localhost:5173"],
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   credentials: true, 
 }));
 
+app.use(express.static('public'));
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
 
