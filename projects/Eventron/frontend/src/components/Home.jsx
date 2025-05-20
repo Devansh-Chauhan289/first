@@ -20,12 +20,12 @@ function Home() {
         setLoggedInUser(localStorage.getItem('loggedInUser'))
     }, [])
     const handleLogout = (e) => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('loggedInUser');
         handleSuccess('User Loggedout');
 
         setTimeout(() => {
-            navigate('/login')
+            navigate('/')
         }, 1000)
     }
 

@@ -25,6 +25,8 @@ const EApp = () => {
     try {
       let res = await axios.get("https://eventron-backend-production.up.railway.app/event");
       let mydata = res.data.events;  
+      let newcategories = new Set(mydata.map((item) => item.category));
+      setCategories([...newcategories]);
       let eventsData = res.data.events.map((item) => ({
         id: item._id,
         title: item.title,
@@ -33,6 +35,7 @@ const EApp = () => {
         startTime: item.dateTime.start.dateTime, 
         endTime: item.dateTime.end.dateTime,
         location: item.location.address, 
+        category : item.category
       }));
 
       setEvents(eventsData);
@@ -173,9 +176,9 @@ const EApp = () => {
   {filteredEvents.map((event) => (
     <div key={event.id} className='event-card'>
       <Heading fontSize={"30px"}><h3>{event.title}</h3></Heading>
-      <img src={event.media} alt="" width={"300px"} height={"100px"} />
+      <img src={event.media} alt="" style={{width:"300px",height:"300px",margin : "auto"}}  />
       
-      <p ><strong>Category:</strong> {event.category}</p>
+      <p style={{fontSize:"20px"}}><strong>Category:</strong> {event.category}</p>
       <p style={{fontSize:"20px"}}><strong>Date:</strong> {new Date(event.startTime).toDateString()}</p>
       
       <p style={{fontSize:"20px",fontWeight:"bold"}}> {event.description.substring(0,20)}....</p>

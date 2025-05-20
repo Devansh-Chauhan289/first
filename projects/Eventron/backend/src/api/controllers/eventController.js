@@ -13,6 +13,7 @@ dotenv.config()
 
 
 const mediacontroller = async (req) => {
+    
     return new Promise((resolve, reject) => {
         cloudinary.uploader.upload(req.file.path, (result, error) => {
             if (error) {
@@ -21,6 +22,7 @@ const mediacontroller = async (req) => {
             }
             
             resolve(result.url); 
+            console.log(result.url);
         });
     });
 };
@@ -28,11 +30,11 @@ const mediacontroller = async (req) => {
 
 
 const createEventInDatabase = async (req, res) => {
-    const { title, description, startTime, endTime, timeZone, location, invitees } = req.body;
+    const { title, description, startTime, endTime, timeZone, location, invitees,category } = req.body;
     let parseInvite = JSON.parse(invitees);
     console.log("parse - ",parseInvite);
     console.log("invitees - ",invitees);
-
+    console.log("body",req.body)
     if (!title || !startTime || !location) {
         return res.status(400).json({ msg: "Missing required fields" });
     }
@@ -92,7 +94,7 @@ const createEventInDatabase = async (req, res) => {
                     timeZone: timeZone,
                 },
             },
-            
+            category : category,
             location: {
                 address: location,
             },
@@ -347,4 +349,3 @@ export {
     sendInvitationEmail,
     mediacontroller
 }
-

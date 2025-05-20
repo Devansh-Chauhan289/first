@@ -9,23 +9,23 @@ import { eventRouter } from "./api/routes/eventRoutes.js"
 import { adminRouter } from "./api/routes/adminRoutes.js"
 import "./api/middlewares/OAuthMiddleware.js"
 import cors from "cors"
+// import { app } from "./app.js"
 
 dotenv.config()
 
 const app = express()
 
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 const DB_URL = process.env.DB_URL
 
 
 app.use(cors({
-  origin: [`https://eventron-ft.vercel.app/`, "http://localhost:5173"],
+  origin: ['https://first-sand-kappa.vercel.app','http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   credentials: true, 
 }));
 
-app.use(express.static('public'));
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
 
@@ -38,7 +38,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use("/",userRouter)   
+app.use("/",userRouter)
 app.use("/event", eventRouter)
 app.use("/admin", adminRouter)
 

@@ -68,7 +68,7 @@ export let CreateEvent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let { title, startTime, endTime, location, invitees, media, description } = eventData;
+        let { title, startTime, endTime, location, invitees, media, description,category } = eventData;
 
         // Ensure required fields are filled
         if (!title || !startTime || !location ) {
@@ -87,8 +87,9 @@ export let CreateEvent = () => {
         formData.append("location", location);
         formData.append("invitees", JSON.stringify(invitees));
         formData.append("timeZone", timeZone);
+        formData.append("category", category || "");
         if (media) formData.append("media", media);
-        console.log(eventData);
+        console.log(formData);
 
         setLoading(true);
         try {

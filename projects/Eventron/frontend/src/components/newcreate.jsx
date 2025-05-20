@@ -72,7 +72,7 @@ export let NewCreateEvent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let { title, startTime, endTime, location, invitees, media, description } = eventData;
+        let { title, startTime, endTime, location, invitees, media, description,category } = eventData;
 
         // Ensure required fields are filled
         if (!title || !startTime || !location ) {
@@ -91,8 +91,9 @@ export let NewCreateEvent = () => {
         formData.append("location", location);
         formData.append("invitees", JSON.stringify(invitees));
         formData.append("timeZone", timeZone);
+        formData.append("category", category || "");
         if (media) formData.append("media", media);
-        console.log(eventData);
+        console.log(formData);
 
         setLoading(true);
         try {
@@ -112,12 +113,12 @@ export let NewCreateEvent = () => {
                 setEventData({ ...eventData, media: newEvent.media });
                 handleSuccess(msg);
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/event");
                 }, 2000);
             } else {
                 handleError(msg);
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/event");
                 }, 2000);
             }
         } catch (err) {
@@ -165,7 +166,7 @@ export let NewCreateEvent = () => {
                             ) : (
                                 <>
                                 <Input placeholder='Invitees (comma separated)' value={member} onChange={(e) => setmember(e.target.value)} mb={4}/>
-                                <Button colorScheme="teal" onClick={() => handleInvites(member)}>Add Invitee</Button>
+                                <Button colorScheme="teal"  onClick={() => handleInvites(member)}>Add Invitee</Button>
                                 </>
                                 
                             )
@@ -184,7 +185,10 @@ export let NewCreateEvent = () => {
                         )}
                         
                         {loading ? (
-                            <Spinner size="lg" color="teal"/>) : (
+                            <Button type='submit' colorScheme='teal'onClick={handleSubmit} width="100%" mt={4}>
+                                Creating Event... <Spinner size="lg" color="teal"/>  
+                            </Button>
+                            ) : (
                             <Button type='submit' colorScheme='teal'onClick={handleSubmit} width="100%" mt={4}>
                                 Create Event
                             </Button>

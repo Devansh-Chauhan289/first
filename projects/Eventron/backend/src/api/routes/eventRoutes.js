@@ -1,16 +1,12 @@
 import express from "express"
 import { createEventInDatabase, deleteEvent, getAllEvents, getEvent, getRSVPs, mediacontroller, updateEventInDatabase, updateRSVP } from "../controllers/eventController.js"
 import { authMiddleware } from "../middlewares/authMiddleware.js"
-import multer from "multer"
 import { upload } from "../middlewares/multer.js"
 
 
 const eventRouter = express.Router()
 
-eventRouter.post("/create", authMiddleware, upload.single("media"), (req, res, next) => {
-    console.log("Route Middleware: /create route accessed."); // Log route access
-    next();
-}, createEventInDatabase)
+eventRouter.post("/create", authMiddleware, upload.single("media"), createEventInDatabase)
 eventRouter.get("/", getAllEvents)
 eventRouter.get("/:id", getEvent)
 eventRouter.put("/update-event/:id", authMiddleware, upload.array("media"), updateEventInDatabase)

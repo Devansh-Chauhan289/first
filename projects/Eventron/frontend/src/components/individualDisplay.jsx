@@ -62,7 +62,7 @@ export let IndividualEvent = () => {
   const handleResponse = async() =>{
 
     try {
-      let url = `http://localhost:3000/event/rsvp`
+      let url = `https://eventron-backend-production.up.railway.app/event/rsvp`
       let res = await fetch(url,{
         method : 'POST',
         headers : {
@@ -82,7 +82,7 @@ export let IndividualEvent = () => {
       if(res.status === 200){
         handleSuccess("Response Submitted Successfully")
         setTimeout(() => {
-          navigate("/")
+          navigate("/event")
           setresponded(true)
           setopenmodal(false)
         }, 1500);

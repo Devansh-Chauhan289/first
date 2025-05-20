@@ -1,6 +1,7 @@
 import { Avatar,Heading,Text,Card,
     Box,Badge,ListIcon,ListItem,
-    UnorderedList
+    UnorderedList,
+    Spinner
  } from "@chakra-ui/react"
 import {MdCheckCircle} from "react-icons/md"
 import { useEffect, useState } from "react"
@@ -61,7 +62,9 @@ export let UserProfile = () => {
     }, [email, navigate]);  
 
     if (loading) {
-        return <div>Loading...</div>; 
+        return <div style={{margin : "auto",fontSize : "50px",width: "fit-content"}}>
+                    Loading... <Spinner size="xl" color="teal"/> 
+            </div>; 
     } 
 
     if (!user) {

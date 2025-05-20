@@ -3,16 +3,18 @@
 
 @media (min-width:400px) and (max-width : 700px) {
       .profile-cont{
+        flex-direction: column;
         display: block;
         gap: 20px;
         ;
         text-align: center;
+        
       }
       .event-cont{
         display: block;
         padding-right:20px ;
         align-items: center;
-        
+        flex-direction: column;
       }
 }
 
