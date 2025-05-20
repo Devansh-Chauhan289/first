@@ -112,12 +112,12 @@ export let NewCreateEvent = () => {
                 setEventData({ ...eventData, media: newEvent.media });
                 handleSuccess(msg);
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/event");
                 }, 2000);
             } else {
                 handleError(msg);
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/event");
                 }, 2000);
             }
         } catch (err) {
