@@ -16,6 +16,11 @@
         align-items: center;
         flex-direction: column;
       }
+      .signup-container{
+        flex-direction: column-reverse;
+        justify-content: center;
+
+      }
 }
 
 @media screen and (max-width: 500px) {
@@ -293,6 +298,7 @@ h1 {
   height: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  overflow-y :hidden;
 }
 
 
