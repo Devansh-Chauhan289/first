@@ -29,15 +29,15 @@ function ShowTodos(){
 
         todoList.innerHTML += `
         <div class="todo-item">
-        <h2> Task : ${item.todo} | Date :  ${newDate} | Category :  ${item.type} | Status : ${item.done ? "Completed":"Incomplete"}  </h2>
+        <h2> <b>Task :</b> ${item.todo} | <b>Date :</b>  ${newDate} | <b>Category :</b>${item.type} | <b>Status :</b> ${item.done ? "Completed":"Incomplete"}  </h2>
         
-        <div class = "todo-btns>
-            <label for="done">Mark As Complete </label>
+        <div class = "todo-btns">
+            <label for="done">Mark As Complete 
             ${
                 item.done ? `<input type="checkbox" checked onchange="updateTodo(${index})" name="done">` : 
                 `<input type="checkbox" onchange="updateTodo(${index})" name="done">`
             }
-            
+            </label>    
             <button onclick="DeleteTodo(${index})">Delete</button>
         </div>
         
@@ -121,13 +121,13 @@ function FilterCategory(event){
         <div class="todo-item">
         <h2> Task : ${item.todo} | Date :  ${newDate} | Category :  ${item.type} | Status : ${item.done ? "Completed":"Incomplete"}  </h2>
         
-        <div class = "todo-btns>
-            <label for="done">Mark As Complete </label>
+        <div class = "todo-btns">
+            <label for="done">Mark As Complete 
             ${
                 item.done ? `<input type="checkbox" checked onchange="updateTodo(${index})" name="done">` : 
                 `<input type="checkbox" onchange="updateTodo(${index})" name="done">`
             }
-            
+            </label>
             <button onclick="DeleteTodo(${index})">Delete</button>
         </div>
         
