@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo PLanner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 >Todo Planner</h1>
+    <div class="container">
+        
+        <form id="todo-form" onsubmit="AddTodo(event)">
+            <input type="text" id="todo-input" placeholder="Add a new task..." required>
+            <input type="date" id="todo-date" placeholder="Select a date" required>
+            <select title="type" name="choose" id="todo-type">
+                <option value="">Select Category</option>
+                <option value="personal">Personal</option>
+                <option value="work">Work</option>
+                <option value="study">Study</option>
+                <option value="shopping">Shopping</option>
+                <option value="other">Other</option>
+            </select>
+            <button type="submit">Add</button>
+        </form>
+        <h2>Todo List</h2>  
+        <div class="todo-container">
+            
+            <div class="todo-search">
+                <input type="text" oninput="debouncedFilterTodos(event)" placeholder="Enter Text to Search Task..." name="" id="">
+                
+                <select title="type" name="choose" onchange="FilterCategory(event)" id="todo-search">
+                    <option value="">All</option>
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                    <option value="study">Study</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <button type="button" onclick="ClearTodos()">Clear All</button>
+            </div>
+            <div id="todo-list">
+                
+            </div>
+            <button id="scroll-to-top"  type="button" onclick="Throttle()">Back to Top</button>
+        </div>
+
+    </div>
+</body>
+</html>
+<script src="app.js"></script>
