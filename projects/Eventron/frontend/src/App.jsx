@@ -76,41 +76,14 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/event' element = {
-          <PublicRoutes>
-            <EApp/>
-          </PublicRoutes>
-        } />
-        <Route path='/Create Event' element ={
-          <ProtectedRoutes>
-            <NewCreateEvent/>
-          </ProtectedRoutes> } />
-        <Route path='/user/profile/:email' element = {
-          <ProtectedRoutes>
-            <UserProfile/>
-          </ProtectedRoutes>
-        } />
-        <Route path='/eventdetails/:id' element = {
-          <ProtectedRoutes>
-            <IndividualEvent/>
-          </ProtectedRoutes>
-        } />
-        <Route path='/signup' element={
-          <PublicRoutes>
-            <Signup/>
-          </PublicRoutes>
-        }  />
-        <Route path='/login' element={
-          <PublicRoutes>
-            <Login/>
-          </PublicRoutes>
-        } />
-        <Route path='/editdetails/:id' element=<EditDetails/> />
-        <Route path='/' element={
-          <PublicRoutes>
-            <Home/>
-          </PublicRoutes>
-        } />
+        <Route path='/event' element = { <EApp/>} />
+        <Route path='/Create Event' element ={<NewCreateEvent/>} />
+        <Route path='/user/profile/:email' element = {<UserProfile/>} />
+        <Route path='/eventdetails/:id' element = {<IndividualEvent/>} />
+        <Route path='/signup' element={<Signup/>}  />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/editdetails/:id' element={<EditDetails/>} />
+        <Route path='/' element={<Home/>} />
         
       </Routes> 
       
