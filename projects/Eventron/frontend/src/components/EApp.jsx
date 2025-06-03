@@ -23,7 +23,7 @@ const EApp = () => {
  
   const getdata = async () => {
     try {
-      let res = await axios.get("https://eventron-backend-production.up.railway.app/event");
+      let res = await axios.get("https://eventron-backend-5gl7.onrender.com/event");
       let mydata = res.data.events;  
       let newcategories = new Set(mydata.map((item) => item.category));
       setCategories([...newcategories]);
@@ -122,7 +122,7 @@ const EApp = () => {
   function LearnMoreButton(id){
     let accessToken = localStorage.getItem("accessToken")
     let refreshToken = localStorage.getItem("refreshToken")
-    let email = sessionStorage.getItem("email")
+    let email = localStorage.getItem("email")
 
     if(accessToken && refreshToken && email){
       navigate(`/eventdetails/${id}`)
@@ -174,7 +174,7 @@ const EApp = () => {
           filteredEvents.length === 0 ? <Text fontSize={"30px"}>No events found</Text> : null
         }
   {filteredEvents.map((event) => (
-    <div key={event.id} className='event-card'>
+    <div key={event.id} className='event-card' onClick={() => LearnMoreButton(event.id) }>
       <Heading fontSize={"30px"}><h3>{event.title}</h3></Heading>
       <img src={event.media} alt="" style={{width:"300px",height:"300px",margin : "auto"}}  />
       
@@ -183,7 +183,6 @@ const EApp = () => {
       
       <p style={{fontSize:"20px",fontWeight:"bold"}}> {event.description.substring(0,20)}....</p>
       
-      <Button onClick={() => LearnMoreButton(event.id) }>Learn More</Button>
     </div>
   ))}
 </div>

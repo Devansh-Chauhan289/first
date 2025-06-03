@@ -26,7 +26,7 @@ export let IndividualEvent = () => {
 
   const getData = async () => {
     try {
-      let res = await axios.get("https://eventron-backend-production.up.railway.app/event");
+      let res = await axios.get("https://eventron-backend-5gl7.onrender.com/event");
       let eventsData = res.data.events.map((item) => ({
         id: item._id,
         title: item.title,
@@ -62,7 +62,7 @@ export let IndividualEvent = () => {
   const handleResponse = async() =>{
 
     try {
-      let url = `https://eventron-backend-production.up.railway.app/event/rsvp`
+      let url = `https://eventron-backend-5gl7.onrender.com/event/rsvp`
       let res = await fetch(url,{
         method : 'POST',
         headers : {

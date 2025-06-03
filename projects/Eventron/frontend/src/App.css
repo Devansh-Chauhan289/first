@@ -242,6 +242,7 @@ h1 {
 }
 
 .event-card {
+  cursor: pointer;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;

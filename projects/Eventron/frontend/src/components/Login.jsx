@@ -33,10 +33,10 @@ function Login() {
             return handleError('Email and password are required');
         }
 
-        setLoading(true);  // Disable button while waiting for response
+        setLoading(true); 
 
         try {
-            const url = "https://eventron-backend-production.up.railway.app/user/login";
+            const url = "https://eventron-backend-5gl7.onrender.com/user/login";
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -51,12 +51,12 @@ function Login() {
             if (response.status === 200 && accessToken && refreshToken) {
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("refreshToken", refreshToken);
-                sessionStorage.setItem("email", email);
+                localStorage.setItem("email", email);
                 handleSuccess(msg);
                 setTimeout(() => {
                     navigate(`/user/profile/:${email}`);
                 }, 2000);
-                // 
+                 
             } else {
                 handleError(msg);
             }

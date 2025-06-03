@@ -16,19 +16,18 @@ function Home() {
     const [loading,setloading] = useState(false)
     const [loggedInUser, setLoggedInUser] = useState("");
     const navigate = useNavigate();
-    useEffect(() => {
-        setLoggedInUser(localStorage.getItem('loggedInUser'))
-    }, [])
-    const handleLogout = (e) => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('loggedInUser');
-        handleSuccess('User Loggedout');
-
-        setTimeout(() => {
-            navigate('/')
-        }, 1000)
+    
+    const handleCheck =  () => {
+        const accesstoken = localStorage.getItem("accessToken")
+        const refreshtoken = localStorage.getItem("refreshToken")
+        if(accesstoken || refreshtoken){
+            navigate("/event")
+        }
     }
-
+    
+    useEffect(() => {
+        handleCheck()
+    },[])
 
 
     return (

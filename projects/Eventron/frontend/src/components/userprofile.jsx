@@ -16,13 +16,13 @@ export let UserProfile = () => {
     const [user, setUser] = useState(null);  
     const navigate = useNavigate();
     
-    const email = sessionStorage.getItem("email");
+    const email = localStorage.getItem("email");
 
     async function checkUser() {
         setLoading(true);
 
         try {
-            let url = `https://eventron-backend-production.up.railway.app/user/profile/${email}`;
+            let url = `https://eventron-backend-5gl7.onrender.com/user/profile/${email}`;
             
             const res = await fetch(url, {
                 method: 'GET',

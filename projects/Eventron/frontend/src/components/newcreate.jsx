@@ -97,7 +97,7 @@ export let NewCreateEvent = () => {
 
         setLoading(true);
         try {
-            let url = "https://eventron-backend-production.up.railway.app/event/create";
+            let url = `https://eventron-backend-5gl7.onrender.com/event/create`;
             let res = await fetch(url, {
                 method: "POST",
                 headers: {

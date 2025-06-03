@@ -50,7 +50,7 @@ function Navbar() {
   const seeProfile = () => {
     let accessToken = localStorage.getItem("accessToken");
     let refreshToken = localStorage.getItem("refreshToken");
-    let email = sessionStorage.getItem("email");
+    let email = localStorage.getItem("email");
 
     if (accessToken && refreshToken && email) {
       setLog(true);
@@ -73,7 +73,7 @@ function Navbar() {
   const ForCreateEvent = () => {
     let accessToken = localStorage.getItem("accessToken");
     let refreshToken = localStorage.getItem("refreshToken");
-    let email = sessionStorage.getItem("email");
+    let email = localStorage.getItem("email");
 
     if (accessToken && refreshToken && email) {
       setLog(true);
@@ -155,7 +155,7 @@ function Navbar() {
           </li>
         </ul>
         {
-          (localStorage.getItem("accessToken") && localStorage.getItem("refreshToken") && sessionStorage.getItem("email")) ? (
+          (localStorage.getItem("accessToken") && localStorage.getItem("refreshToken") && localStorage.getItem("email")) ? (
             <Popover>
             <PopoverTrigger>
               <FontAwesomeIcon

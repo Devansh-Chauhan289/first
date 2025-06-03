@@ -12,7 +12,7 @@ import { useNavigate } from "react-router"
 import { handleError, handleSuccess } from "../utils";
 import Navbar from "./Navbar"
 import Footer from "./Footer"
-import React from "react"
+
 
 
 
@@ -93,7 +93,7 @@ export let CreateEvent = () => {
 
         setLoading(true);
         try {
-            let url = "https://eventron-backend-production.up.railway.app/event/create";
+            let url = `https://eventron-backend-production.up.railway.app/event/create`;
             let res = await fetch(url, {
                 method: "POST",
                 headers: {
