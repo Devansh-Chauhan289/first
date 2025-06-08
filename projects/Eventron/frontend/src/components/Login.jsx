@@ -25,6 +25,19 @@ function Login() {
         }));
     };
 
+    const handleCheck =  () => {
+        const accesstoken = localStorage.getItem("accessToken")
+        const refreshtoken = localStorage.getItem("refreshToken")
+        if(accesstoken || refreshtoken){
+            navigate("/event")
+        }
+    }
+
+    useEffect(() => {
+         handleCheck()
+        
+    },[])
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const { email, password } = login;
