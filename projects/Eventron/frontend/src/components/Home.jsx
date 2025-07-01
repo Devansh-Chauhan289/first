@@ -20,7 +20,7 @@ function Home() {
     const handleCheck =  () => {
         const accesstoken = localStorage.getItem("accessToken")
         const refreshtoken = localStorage.getItem("refreshToken")
-        if(accesstoken || refreshtoken){
+        if(accesstoken){
             navigate("/event")
         }
     }
