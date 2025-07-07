@@ -27,7 +27,7 @@ function App() {
     const token = localStorage.getItem('accessToken');
     
     // Check if token exists
-    if (!accessToken) {
+    if (!token) {
       return <Navigate to='/login' />
     }
     

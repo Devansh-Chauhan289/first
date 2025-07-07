@@ -23,6 +23,7 @@ function Home() {
         if(accesstoken){
             navigate("/event")
         }
+        
     }
     
     useEffect(() => {
