@@ -18,12 +18,35 @@ function Home() {
     const navigate = useNavigate();
     
     const handleCheck =  () => {
-        const accesstoken = localStorage.getItem("accessToken")
-        const refreshtoken = localStorage.getItem("refreshToken")
-        if(accesstoken){
-            navigate("/event")
-        }
-        
+    const token = localStorage.getItem('accessToken');
+    
+    // Check if token exists
+    if (!token) {
+    //   return <navigate to='/login' />
+        return
+    }
+    
+    // Decode and check token expiration
+    try {
+      const decodedToken = jwtDecode(token);
+      
+      // Check if token is expired
+      if (decodedToken.exp * 1000 < Date.now()) {
+        // Token is expired, remove it
+        localStorage.removeItem('accessToken');
+        // localStorage.removeItem('user');
+        return 
+      } else{
+        return navigate("/event")
+      }
+
+    } catch (error) {
+      // Token is invalid, remove it
+      console.error('Invalid token:', error);
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+      
+    }
     }
     
     useEffect(() => {
