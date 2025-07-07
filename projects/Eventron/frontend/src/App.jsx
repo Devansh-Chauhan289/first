@@ -24,48 +24,57 @@ function App() {
   
    
   const ProtectedRoutes = ({children}) => {
-      const token = localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken');
+    
+    // Check if token exists
+    if (!accessToken) {
+      return <Navigate to='/login' />
+    }
+    
+    // Decode and check token expiration
+    try {
+      const decodedToken = jwtDecode(token);
       
-      if (!token) {
+      // Check if token is expired
+      if (decodedToken.exp * 1000 < Date.now()) {
+        // Token is expired, remove it
+        localStorage.removeItem('accessToken');
+        // localStorage.removeItem('user');
         return <Navigate to='/login' />
       }
       
-      try {
-        const decodedToken = jwtDecode(token);
-        
-        if (decodedToken.exp * 1000 < Date.now()) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          return <Navigate to='/login' />
-        }
-        
-        return children;
-      } catch (error) {
-        console.error('Invalid token:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        return <Navigate to='/login' />
-      }
+      return children;
+    } catch (error) {
+      // Token is invalid, remove it
+      console.error('Invalid token:', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      return <Navigate to='/login' />
+    }
   }
 
-
   const PublicRoutes = ({children}) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken');
     
+    // Check if token exists and is valid
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
         
+        // Check if token is not expired
         if (decodedToken.exp * 1000 > Date.now()) {
+          // Token is valid, redirect to dashboard
           return <Navigate to="/" />
         } else {
+          // Token is expired, remove it
           localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          // localStorage.removeItem('user');
           <Navigate to={"/login"}/>
         }
       } catch (error) {
+        // Token is invalid, remove it
         console.error('Invalid token:', error);
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
       }
     }
@@ -73,17 +82,45 @@ function App() {
     return children
   }
 
+
   return (
     <>
       <Routes>
-        <Route path='/event' element = { <EApp/>} />
-        <Route path='/Create Event' element ={<NewCreateEvent/>} />
-        <Route path='/user/profile/:email' element = {<UserProfile/>} />
-        <Route path='/eventdetails/:id' element = {<IndividualEvent/>} />
-        <Route path='/signup' element={<Signup/>}  />
-        <Route path='/login' element={<Login/>} />
+        <Route path='/event' element = { 
+          <PublicRoutes>
+            <EApp/>
+          </PublicRoutes>
+          } />
+        <Route path='/Create Event' element ={
+          <ProtectedRoutes>
+            <NewCreateEvent/>
+          </ProtectedRoutes>
+          } />
+        <Route path='/user/profile/:email' element = {
+          <ProtectedRoutes>
+            <UserProfile/>
+          </ProtectedRoutes>
+          } />
+        <Route path='/eventdetails/:id' element = {
+          <ProtectedRoutes>
+            <IndividualEvent/>
+          </ProtectedRoutes>} />
+        <Route path='/signup' element={
+          <PublicRoutes>
+            <Signup/>
+          </PublicRoutes>
+          }  />
+        <Route path='/login' element={
+          <PublicRoutes>
+            <Login/>
+          </PublicRoutes>
+          } />
         <Route path='/editdetails/:id' element={<EditDetails/>} />
-        <Route path='/' element={<Home/>} />
+        <Route path='/' element={
+          <PublicRoutes>
+            <Home/>
+          </PublicRoutes>
+          } />
         
       </Routes> 
       
