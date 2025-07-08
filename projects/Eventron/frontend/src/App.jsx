@@ -87,9 +87,7 @@ function App() {
     <>
       <Routes>
         <Route path='/event' element = { 
-          <PublicRoutes>
             <EApp/>
-          </PublicRoutes>
           } />
         <Route path='/Create Event' element ={
           <ProtectedRoutes>
