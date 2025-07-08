@@ -37,8 +37,9 @@ function Home() {
         // localStorage.removeItem('user');
         return 
       } 
-      
-      return navigate("/event")
+      navigate("/event")
+      console.log("navigate to events");
+      return 
 
     } catch (error) {
       // Token is invalid, remove it
