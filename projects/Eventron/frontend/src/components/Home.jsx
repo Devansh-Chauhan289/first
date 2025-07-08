@@ -21,7 +21,7 @@ function Home() {
     const token = localStorage.getItem('accessToken');
     
     // Check if token exists
-    if (!token) {
+    if (!token || token === "") {
     //   return <navigate to='/login' />
         return
     }
