@@ -64,7 +64,7 @@ function App() {
         // Check if token is not expired
         if (decodedToken.exp * 1000 > Date.now()) {
           // Token is valid, redirect to dashboard
-          return <Navigate to="/" />
+          return <Navigate to="/event" />
         } else {
           // Token is expired, remove it
           localStorage.removeItem('token');
