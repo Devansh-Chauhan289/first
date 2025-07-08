@@ -36,9 +36,10 @@ function Home() {
         localStorage.removeItem('accessToken');
         // localStorage.removeItem('user');
         return 
-      } else{
-        return navigate("/event")
-      }
+      } 
+    //   else{
+    //     return navigate("/event")
+    //   }
 
     } catch (error) {
       // Token is invalid, remove it
