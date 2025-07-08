@@ -42,7 +42,7 @@ function Navbar() {
     sessionStorage.removeItem("email");
     handleSuccess("Logout Successful");
     setTimeout(() => {
-      navigate("/login");
+      navigate("/");
     },
     2000);
   }
